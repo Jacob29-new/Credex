@@ -8,6 +8,7 @@ import AboutPage from './pages/aboutPage.jsx';
 import ServicesPage from './pages/servicesPage.jsx';
 import RegisterPage from './pages/registerPage.jsx';
 import UnauthorizedPage from './pages/unauthorizedPage.jsx';
+import ForbiddenPage from './pages/forbiddenPage.jsx';
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
             }/>
           <Route path="/error" element={<ErrorPage />}></Route> 
           <Route path="/unauthorized" element={<UnauthorizedPage />}></Route> 
+          <Route path="/forbidden" element={<ForbiddenPage />}></Route> 
           <Route path="/about" element={<AboutPage />}></Route> 
           <Route path="/services" element={<ServicesPage />}></Route> 
           <Route path="/register" element={<RegisterPage />}></Route> 

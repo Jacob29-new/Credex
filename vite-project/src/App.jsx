@@ -7,6 +7,7 @@ import HomePage from './pages/homePage.jsx';
 import AboutPage from './pages/aboutPage.jsx';
 import ServicesPage from './pages/servicesPage.jsx';
 import RegisterPage from './pages/registerPage.jsx';
+import UnauthorizedPage from './pages/unauthorizedPage.jsx';
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
               </ProtectedRoute>
             }/>
           <Route path="/error" element={<ErrorPage />}></Route> 
+          <Route path="/unauthorized" element={<UnauthorizedPage />}></Route> 
           <Route path="/about" element={<AboutPage />}></Route> 
           <Route path="/services" element={<ServicesPage />}></Route> 
           <Route path="/register" element={<RegisterPage />}></Route> 

@@ -14,7 +14,7 @@ function ErrorPage() {
                     {/* Left side of the page */}
                     <div className="w-full sm:w-1/2 h-full bg-black flex items-center justify-center text-center min-h-[460px]">
                         <div className="flex flex-col justify-between h-1/3 items-center h-1/3 justify-between">
-                            <h1 className="text-6xl font-bold text-white">401 - Unauthorised access</h1>
+                            <h1 className="text-6xl font-bold text-white">401 - Unauthorized access</h1>
                             <h2 className="uppercase text-white">Access denied</h2>
                             <h2 className="text-gray-200">You aren't authenticated, please sign in</h2>
                             <Link to="/" className=" w-1/2 mt-4 px-2 py-2 bg-black text-white rounded-2xl text-white border-2 border-blue-500 hover:bg-indigo-400">

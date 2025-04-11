@@ -1,11 +1,13 @@
-import { useState } from "react";
-import AuthenticateUser from "../functions/authenticateUser";
+import { use, useState } from "react";
 import Navbar from "../components/navbar";
 import { Link } from "react-router-dom";
 import { FaGithub, FaGoogle, FaFacebook } from "react-icons/fa";
 import registerImage from "../assets/registerImage.png"; 
+import loadingImage from "../assets/loading.webp";
+import { useEffect } from "react";
 
 function RegisterPage() {
+    
 
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -13,23 +15,57 @@ function RegisterPage() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
-    const [success, setSuccess] = useState(null)
     const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [loadingMsg, setLoadingMsg] = useState("")
+    const loadingMessages = [
+        "Please wait while we prepare everything for you...",
+        "Your account is being set up...",
+        "Almost done, just a few more steps...",
+        "We’re creating your account, hang tight!",
+        "Setting things up for you...",
+        "This won't take long, just finishing up...",
+        "We’re making sure everything is perfect for you...",
+        "Your registration is in progress...",
+        "Good things take time, we're almost there...",
+        "Final touches on your profile, please wait...",
+        "Hang in there, we’re setting up your account...",
+        "Your profile is being created, just a moment...",
+        "Almost there, just a few more steps to go...",
+        "We're finalizing everything for you...",
+        "Thank you for your patience, finishing registration..."
+    ];
 
 
-    function handleSubmit(e) {
+    async function registerUser(e) {
         e.preventDefault();
-        setSuccess(null);
-        
-        const result = AuthenticateUser({ username, password });
+        setLoading(true)
+    /*  setError(null)
+
+        const result = await register({ firstName, lastName, username, email, password });
         if (result) {
-            sessionStorage.setItem("currentUser", username);
-            sessionStorage.setItem(username, "true");
-            window.location.href = "/user"; 
-        } else {
-            setSuccess(false);
-        }
+            setLoading(false)
+            window.location.href = "/login";
+        } */
     }
+
+    useEffect(() => {
+        if (!loading) {
+            setLoadingMsg("")
+            return;
+        } else {
+            let i = 0;
+            setInterval(() => {
+                if (i === loadingMessages.length + 1) {
+                    i = 0
+                }
+                setLoadingMsg(loadingMessages[i]);
+                i = (i + 1)
+            }, 5000);
+        }
+
+        return () => clearInterval(interval);
+    }, [loading])
 
 
 
@@ -39,8 +75,8 @@ function RegisterPage() {
             <div className="flex flex-col md:flex-row w-full h-full">
 
                 {/* Right part*/}
-                <div className="hidden md:flex w-1/2 bg-[#fffbfb] items-center justify-center">
-                    <div className="text-center p-8 flex items-center flex-col">
+                <div className="hidden md:flex w-1/2 bg-[#fffbfb] items-center justify-center h-full">
+                    <div className="text-center p-8 flex items-center flex-col h-full">
                         <img src={registerImage} alt="" className="h-102 w-102"/>
                         <h2 className="text-4xl font-bold text-blue-600 mb-4">Welcome!</h2>
                         <p className="text-lg text-gray-600">Create an account to begin your journey.</p>
@@ -48,11 +84,18 @@ function RegisterPage() {
                 </div>
 
                 {/* Left part - Register Form */}
-                <div className=" w-full md:w-1/2 flex items-center justify-center py-8 2xl:pt-36">
-                    <div className=" w-11/12 max-w-md px-6 py-8 bg-white rounded-lg shadow-md mx-4">
+                <div className={` w-full md:w-1/2 flex items-center justify-center py-8 `}>
+                    <div className=" w-11/12 max-w-md px-6 py-8 bg-white rounded-lg shadow-md mx-4 max-h-[500px] overflow-y-auto">
+                        {loading ? (
+                            <div className="flex flex-col items-center justify-center py-4">
+                                <img src={loadingImage} alt="" />
+                                <p className="mt-4 text-gray-600 font-medium">{loadingMsg}</p>
+                            </div>
+                        ) : ( 
+                        <>
                         <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 mt-2 md:mb-8 text-gray-800">Register</h2>
 
-                        <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
+                        <form className="space-y-5 md:space-y-6" onSubmit={registerUser}>
                             {/* First Name  */}
                             <div>
                                 <label className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">First Name</label>
@@ -93,7 +136,9 @@ function RegisterPage() {
                             {success === true && (<div className="text-green-500 text-center my-2 text-xs md:text-sm">Signing in successful.</div>)} */}
 
                             {/* Register Button */}
-                            <button className="w-full py-2 md:py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 text-sm md:text-base font-medium transition-colors duration-200">Register</button>
+                            <button type="submit" className="w-full py-2 md:py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 text-sm md:text-base font-medium transition-colors duration-200">
+                                Register
+                            </button>
                         </form>
 
                         {/* Register Link */}
@@ -123,6 +168,8 @@ function RegisterPage() {
                                 <FaFacebook className="w-5 h-5 md:w-6 md:h-6" />
                             </button>
                         </div>
+                        </>
+                    )}
                     </div>
                 </div>
 

@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/navbar";
 import { Link } from "react-router-dom";
 import { FaGithub, FaGoogle, FaFacebook } from "react-icons/fa";
@@ -40,6 +40,7 @@ function RegisterPage() {
     async function registerUser(e) {
         e.preventDefault();
         setLoading(true)
+        
     /*  setError(null)
 
         const result = await register({ firstName, lastName, username, email, password });

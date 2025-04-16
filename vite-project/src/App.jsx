@@ -20,6 +20,11 @@ function App() {
                 <UserPage />
               </ProtectedRoute>
             }/>
+          <Route path="/admin" element={
+              <ProtectedRoute>
+                <UserPage />
+              </ProtectedRoute>
+          }/>
           <Route path="/error" element={<ErrorPage />}></Route> 
           <Route path="/unauthorized" element={<UnauthorizedPage />}></Route> 
           <Route path="/forbidden" element={<ForbiddenPage />}></Route> 

@@ -1,5 +1,5 @@
 import Navbar from "../components/navbar.jsx";
-import Image1 from "../assets/forbidden.webp";
+import Image1 from "../assets/forbidden.png";
 import { Link } from "react-router-dom";
 
 function ForbiddenPage() {
@@ -9,7 +9,7 @@ function ForbiddenPage() {
           <Navbar />
 
           {/* Container of sides */}
-          <div className="flex flex-col sm:flex-row h-full">
+          <div className="flex flex-col sm:flex-row h-full bg-[#edecea]">
 
             {/* Left side of the page */}
             <div className="w-full sm:w-1/2 h-full bg-black flex items-center justify-center text-center min-h-[460px]">
@@ -24,8 +24,8 @@ function ForbiddenPage() {
             </div>
 
             {/* Right side of the page */}
-            <div className="w-full sm:w-1/2 h-full flex items-center justify-center bg-white">
-                    <img src={Image1} className="max-w-full max-h-full object-contain" />
+            <div className="w-full sm:w-1/2 h-full flex items-center justify-center bg-[#edecea]">
+                    <img src={Image1} className="w-full h-full object-contain" />
                 </div>
           </div>
         </div>

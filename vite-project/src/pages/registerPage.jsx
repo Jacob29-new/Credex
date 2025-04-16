@@ -40,7 +40,9 @@ function RegisterPage() {
     async function registerUser(e) {
         e.preventDefault();
         setLoading(true)
-        
+
+
+
     /*  setError(null)
 
         const result = await register({ firstName, lastName, username, email, password });

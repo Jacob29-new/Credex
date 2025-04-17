@@ -75,7 +75,7 @@ function RegisterPage() {
             }, 5000);
         }
 
-        return () => clearInterval(interval);
+        return;
     }, [loading])
 
 
@@ -110,35 +110,35 @@ function RegisterPage() {
                             {/* First Name  */}
                             <div>
                                 <label className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">First Name</label>
-                                <input type="text" id="email-username" placeholder="Enter your email or username" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full p-1 md:p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base" />
+                                <input type="text" placeholder="Enter your first name" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full p-1 md:p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base" />
                               {/*   {error && error.element === "usermail" && (<div className="text-red-500 text-xs md:text-sm mt-1">{error.message}</div>)} */}
                             </div>
 
                             {/* Last Name */}
                             <div>
                                 <label className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">Last Name</label>
-                                <input type="password" id="password" placeholder="Enter your password" value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full p-2 md:p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base" />
+                                <input type="text"  placeholder="Enter your last name" value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full p-2 md:p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base" />
                               {/*   {error && error.element === "password" && (<div className="text-red-500 text-xs md:text-sm mt-1">{error.message}</div>)} */}
                             </div>
 
                             {/* Username */}
                             <div>
                                 <label className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">Username</label>
-                                <input type="password" id="password" placeholder="Enter your password" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full p-2 md:p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base" />
+                                <input type="text" placeholder="Enter your username" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full p-2 md:p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base" />
                                 {/*   {error && error.element === "password" && (<div className="text-red-500 text-xs md:text-sm mt-1">{error.message}</div>)} */}
                             </div>
 
                             {/* Email */}
                             <div>
                                 <label className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">Email</label>
-                                <input type="password" id="password" placeholder="Enter your password" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full p-2 md:p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base" />
+                                <input type="text"  placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full p-2 md:p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base" />
                                {/*  {error && error.element === "password" && (<div className="text-red-500 text-xs md:text-sm mt-1">{error.message}</div>)} */}
                             </div>
 
                              {/* Password */}
                              <div>
                                 <label className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">Password</label>
-                                <input type="password" id="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-2 md:p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base" />
+                                <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-2 md:p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base" />
                                {/*  {error && error.element === "password" && (<div className="text-red-500 text-xs md:text-sm mt-1">{error.message}</div>)} */}
                             </div>
 

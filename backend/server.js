@@ -28,6 +28,7 @@ app.post('/login', async (req, resp) => {
     if(loginUser.state) {
         resp.cookie('JWT', loginUser.token, {
             httpOnly: true,
+            secure: true,
             sameSite: 'Lax', 
             maxAge: 3600000, 
             path: '/' 
@@ -37,6 +38,10 @@ app.post('/login', async (req, resp) => {
         resp.json({message: loginUser.message, state: false})
     }
 });
+
+app.get("/authenticated", async (req, resp) => {    
+    resp.json(true)
+}); 
 
 const port = 3000;
 app.listen(port, () => {

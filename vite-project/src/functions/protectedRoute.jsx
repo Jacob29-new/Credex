@@ -1,12 +1,37 @@
+import { useState, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+
 
 function ProtectedRoute({ children }) {
     const location = useLocation();
 
-    const username = sessionStorage.getItem("currentUser");
-    const isAuth = username && sessionStorage.getItem(username) === "true";
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
+  
+    useEffect(() => {
+      const checkAuth = async () => {
+        try {
+          const response = await fetch('http://localhost:3000/authenticated', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          });
+          const data = await response.json();
+          setIsAuthenticated(data);
+        } catch (error) {
+          console.error('Authentication check failed:', error);
+          setIsAuthenticated(false);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+  
+      checkAuth();
+    }, []);
+    
 
-    if(isAuth) {
+    if(isAuthenticated) {
         return children
     } else {
         if (location.pathname === "/user") {

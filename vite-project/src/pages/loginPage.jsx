@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import loadingImage from "../assets/loading.webp";
 import Navbar from "../components/navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGithub, FaGoogle, FaFacebook } from "react-icons/fa";
 import loginImage from "../assets/login.png"; 
 import login from "../functions/loginUser.js";
 
 function LoginPage() {
+
+    const navigate = useNavigate(); 
 
     const [usermail, setUsermail] = useState("")
     const [password, setPassword] = useState("")
@@ -42,6 +44,7 @@ function LoginPage() {
         const result = await login(usermail, password);
         if(result === true) {
             setLoading(false)
+            navigate("/user")
         } else {
             alert(result)
         }

@@ -1,4 +1,4 @@
-import passwordHasher from "./passwordHasher.js"
+import hasher from "./hasher.js"
 import addToDatabase from "./databaseHandler.js"
 import verifyRegistration from "./verifyRegistration.js"
 
@@ -11,7 +11,7 @@ async function register(userInfo) {
     console.log(`Currently proccesing request to register: ${username}`)
 
     //hashes password
-    const hashedPassword = await passwordHasher(password)
+    const hashedPassword = await hasher(password)
     console.log("succesfuly hashed password")
 
     //checks if account is taken

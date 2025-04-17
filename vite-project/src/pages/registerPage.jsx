@@ -6,6 +6,7 @@ import registerImage from "../assets/registerImage.png";
 import loadingImage from "../assets/loading.webp";
 import { useEffect } from "react";
 import register from "../functions/registerUser.js";
+import delay from "../functions/delay.js";
 
 function RegisterPage() {
     
@@ -41,6 +42,8 @@ function RegisterPage() {
     async function registerUser(e) {
         e.preventDefault();
         setLoading(true)
+
+        await delay(2000);
 
         const result = await register(firstName, lastName, username, email, password);
         if(result === true) {

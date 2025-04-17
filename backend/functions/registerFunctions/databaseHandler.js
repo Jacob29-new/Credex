@@ -1,7 +1,7 @@
 import { Database } from 'bun:sqlite';
 
 // creates a database
-const db = new Database('./users.db');
+const db = new Database('C:/Users/jacob/Documents/Coding/tests/authenticated_root/backend/users.db');
 
 try {
     db.run(`

@@ -5,6 +5,7 @@ import { FaGithub, FaGoogle, FaFacebook } from "react-icons/fa";
 import registerImage from "../assets/registerImage.png"; 
 import loadingImage from "../assets/loading.webp";
 import { useEffect } from "react";
+import register from "../functions/registerUser.js";
 
 function RegisterPage() {
     
@@ -40,6 +41,13 @@ function RegisterPage() {
     async function registerUser(e) {
         e.preventDefault();
         setLoading(true)
+
+        const result = await register(firstName, lastName, username, email, password);
+        if(result === true) {
+            setLoading(false)
+        } else {
+            alert(result)
+        }
 
 
 

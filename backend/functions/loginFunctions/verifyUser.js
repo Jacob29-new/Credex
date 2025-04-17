@@ -1,4 +1,4 @@
-import { db } from "../registerComponents/databaseHandler.js"
+import { db } from "../registerFunctions/databaseHandler.js"
 import argon2 from 'argon2';
 
 
@@ -26,7 +26,8 @@ async function verifyUser({username, email, password}) {
         const result = prepped.get(params[0]);
 
         if(!result) {
-            console.info("Retrieving user from database failed during login ")
+            console.log("couldnt find user in database ")
+            console.log("signing in failed")
             return {state: false, message: "user doesnt exist"}
         }  
 
@@ -35,7 +36,7 @@ async function verifyUser({username, email, password}) {
         //compares encrypted password to inputed password
         const comparedPassword = await argon2.verify(encryptedPassword, password)
         if(!comparedPassword) {
-            consle.log("Inputed password was incorrect")
+            console.log("Inputed password was incorrect")
             return {state: false, message: "password was incorrect"}
         }
 

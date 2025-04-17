@@ -13,13 +13,14 @@ async function login(usermail,password) {
         headers: {
             'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({ username, email, password })
     });
 
     const data = await response.json();
 
     if (data.state) {
-        console.log('Signing in failed:', data);
+        console.log('Signing in successful:', data);
         return true
     } else {
         console.error('Signing in failed:', data.message);

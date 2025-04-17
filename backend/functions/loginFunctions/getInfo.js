@@ -1,4 +1,4 @@
-import { db } from "../registerComponents/databaseHandler.js";
+import { db } from "../registerFunctions/databaseHandler.js";
 
 async function getInfo(username, email) {
     try {

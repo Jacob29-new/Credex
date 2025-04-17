@@ -11,32 +11,32 @@ import UnauthorizedPage from './pages/unauthorizedPage.jsx';
 import ForbiddenPage from './pages/forbiddenPage.jsx';
 
 function App() {
-    return (
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/user" element={
-              <ProtectedRoute>
-                <UserPage />
-              </ProtectedRoute>
-            }/>
-          <Route path="/admin" element={
-              <ProtectedRoute>
-                <UserPage />
-              </ProtectedRoute>
-          }/>
-          <Route path="/error" element={<ErrorPage />}></Route> 
-          <Route path="/unauthorized" element={<UnauthorizedPage />}></Route> 
-          <Route path="/forbidden" element={<ForbiddenPage />}></Route> 
-          <Route path="/about" element={<AboutPage />}></Route> 
-          <Route path="/services" element={<ServicesPage />}></Route> 
-          <Route path="/register" element={<RegisterPage />}></Route> 
-          <Route path="/login" element={<LoginPage />}></Route> 
-          <Route path="*" element={<ErrorPage />} />
+return (
+    <Router>
+    <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/user" element={
+            <ProtectedRoute>
+            <UserPage />
+            </ProtectedRoute>
+        }/>
+        <Route path="/admin" element={
+            <ProtectedRoute>
+            <UserPage />
+            </ProtectedRoute>
+        }/>
+        <Route path="/error" element={<ErrorPage />}></Route> 
+        <Route path="/unauthorized" element={<UnauthorizedPage />}></Route> 
+        <Route path="/forbidden" element={<ForbiddenPage />}></Route> 
+        <Route path="/about" element={<AboutPage />}></Route> 
+        <Route path="/services" element={<ServicesPage />}></Route> 
+        <Route path="/register" element={<RegisterPage />}></Route> 
+        <Route path="/login" element={<LoginPage />}></Route> 
+        <Route path="*" element={<ErrorPage />} />
 
-        </Routes>
-      </Router>
-    );
-  }
+    </Routes>
+    </Router>
+);
+}
 
 export default App;

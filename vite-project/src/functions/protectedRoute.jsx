@@ -22,13 +22,15 @@ function ProtectedRoute({ children }) {
         } catch (error) {
           console.error('Authentication check failed:', error);
           setIsAuthenticated(false);
-        } finally {
-          setIsLoading(false);
-        }
+        } 
       };
   
       checkAuth();
     }, []);
+
+    if (isAuthenticated === null) {
+        return <div>Loading...</div>; 
+    }
     
 
     if(isAuthenticated) {
@@ -41,6 +43,7 @@ function ProtectedRoute({ children }) {
         }
         
     }
+
 }
 
 export default ProtectedRoute;

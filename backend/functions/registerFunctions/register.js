@@ -10,7 +10,7 @@ async function register(userInfo) {
     //introducing proccesed user
     console.log(`Currently proccesing request to register: ${username}`)
 
-    //hashes password
+    //hashes password 
     const hashedPassword = await hasher(password)
     console.log("succesfuly hashed password")
 
@@ -19,8 +19,7 @@ async function register(userInfo) {
     if(accountTaken) {
         console.log("Registration failed, account is taken")
         return { success: false, message: "Account is already taken" };
-    }
-
+    } 
     //inserts new user into database
     await addToDatabase(firstName, lastName, username, email, hashedPassword)
     console.log("executed addToDatabase function")

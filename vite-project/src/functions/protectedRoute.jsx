@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 
 function ProtectedRoute({ children }) {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [isAuthenticated, setIsAuthenticated] = useState(null);
   
-    useEffect(() => {
-      const checkAuth = async () => {
+    const checkAuth = async () => {
         try {
           const response = await fetch('http://localhost:3000/authenticated', {
             method: 'GET',
@@ -25,8 +25,27 @@ function ProtectedRoute({ children }) {
         } 
       };
   
+    useEffect(() => {
+
       checkAuth();
-    }, []);
+      
+      const tokenExpiryTimer = setTimeout(async () => {
+        const isAuth = await checkAuth();
+        if (!isAuth) {
+          if (location.pathname === "/user") {
+            navigate('/unauthorized');
+          } else if(location.pathname === "/admin") {
+            navigate('/forbidden');
+          } else {
+            navigate('/login');
+          }
+        }
+      }, 60000); 
+      
+      return () => clearTimeout(tokenExpiryTimer);
+    }, [location.pathname, navigate]);
+
+
 
     if (isAuthenticated === null) {
         return <div>Loading...</div>; 

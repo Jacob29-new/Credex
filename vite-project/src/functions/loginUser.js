@@ -21,10 +21,10 @@ async function login(usermail,password) {
 
     if (data.state) {
         console.log('Signing in successful:', data);
-        return true
+        return { success: true };
     } else {
         console.error('Signing in failed:', data.message);
-        return false
+        return { success: false, message: data.message };
     }
 
 

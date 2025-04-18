@@ -11,10 +11,10 @@ async function register(firstName, lastName, username, email, password) {
 
     if (data.state) {
         console.log('Registration successful:', data);
-        return true
+        return { success: true };
     } else {
         console.error('Registration failed:', data.message);
-        return false
+        return { success: false, message: data.message };
     }
 
 

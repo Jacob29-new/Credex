@@ -47,6 +47,7 @@ app.post('/logout', (req, res) => {
         sameSite: 'Lax',
         path: '/'
     });
+
     res.json({ message: "Logged out" });
 });
 

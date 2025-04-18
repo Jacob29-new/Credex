@@ -41,6 +41,15 @@ app.post('/login', async (req, resp) => {
     }
 });
 
+app.post('/logout', (req, res) => {
+    res.clearCookie('JWT', {
+        httpOnly: true,
+        sameSite: 'Lax',
+        path: '/'
+    });
+    res.json({ message: "Logged out" });
+});
+
 app.get("/authenticated", async (req, resp) => {  
     
     if (!req.cookies) {

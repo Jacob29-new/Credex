@@ -8,20 +8,22 @@ async function verifyUser({username, email, password}) {
         //retrieves encrypted password from database
 
         let query, params;
+
+        const cleanUsername = username?.trim();
+        const cleanEmail = email?.trim();
         
-        
-        //checks which info to use in query
-        if (username && username.trim() !== '') {
+        if (cleanUsername) {
             query = `SELECT password FROM users WHERE username = ?`;
-            params = [username];
-        } else if (email && email.trim() !== '') {
+            params = [cleanUsername];
+        } else if (cleanEmail) {
             query = `SELECT password FROM users WHERE email = ?`;
-            params = [email];
+            params = [cleanEmail];
+        } else {
+            throw new Error("Must provide either username or email.");
         }
-
+        
         console.log(`Executing query with: ${JSON.stringify(params)}`);
-
-
+        
         const prepped = db.prepare(query);
         const result = prepped.get(params[0]);
 

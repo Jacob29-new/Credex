@@ -1,12 +1,10 @@
 async function login(usermail,password) {
 
-    let username, email
+    let username = null, email = null
     if (usermail.includes("@")) {
         email = usermail
-        username = "atweijtweoigjmwetjweioweiothnfwfncwe"
     } else {
         username = usermail
-        email = "atweijtweoigjmwetjweioweiothnfwfncwe"
     }
     const response = await fetch('http://localhost:3000/login', {
         method: 'POST',

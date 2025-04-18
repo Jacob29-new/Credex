@@ -40,7 +40,7 @@ function ProtectedRoute({ children }) {
             navigate('/login');
           }
         }
-      }, 60000); 
+      }, 1000*60*60); 
       
       return () => clearTimeout(tokenExpiryTimer);
     }, [location.pathname, navigate]);
@@ -48,7 +48,7 @@ function ProtectedRoute({ children }) {
 
 
     if (isAuthenticated === null) {
-        return <div>Loading...</div>; 
+        return <div>Loading...Loading...Loading...Loading...Loading...Loading...Loading...Loading...Loading...</div>; 
     }
     
 

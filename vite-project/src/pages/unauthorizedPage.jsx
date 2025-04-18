@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function ErrorPage() {
     return (
-        <div className="h-full w-full bg-green-100 flex flex-col">
+        <div className="h-full w-full flex flex-col">
 
             <Navbar />
 

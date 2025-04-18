@@ -19,17 +19,19 @@ function ProtectedRoute({ children }) {
           });
           const data = await response.json();
           setIsAuthenticated(data);
+          return data;
         } catch (error) {
           console.error('Authentication check failed:', error);
           setIsAuthenticated(false);
-        } 
-      };
+          return false;
+        }
+    };
   
     useEffect(() => {
 
       checkAuth();
       
-      const tokenExpiryTimer = setTimeout(async () => {
+      const tokenExpiryTimer = setInterval(async () => {
         const isAuth = await checkAuth();
         if (!isAuth) {
           if (location.pathname === "/user") {
@@ -40,7 +42,7 @@ function ProtectedRoute({ children }) {
             navigate('/login');
           }
         }
-      }, 1000*60*60); 
+      }, 1000); 
       
       return () => clearTimeout(tokenExpiryTimer);
     }, [location.pathname, navigate]);

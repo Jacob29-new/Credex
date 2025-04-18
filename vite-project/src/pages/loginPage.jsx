@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaGithub, FaGoogle, FaFacebook } from "react-icons/fa";
 import loginImage from "../assets/login.png"; 
 import login from "../functions/loginUser.js";
+import theme from "../assets/theme2.png"; 
 
 function LoginPage() {
 
@@ -177,13 +178,9 @@ function LoginPage() {
                 
 
                 {/* Right part*/}
-                <div className="hidden md:flex w-1/2 bg-[#fffbfb] items-center justify-center">
-                    <div className="text-center p-8 flex items-center flex-col">
-                        <img src={loginImage} alt="" className="h-102 w-102"/>
-                        <h2 className="text-4xl font-bold text-blue-600 mb-4">Welcome Back!</h2>
-                        <p className="text-lg text-gray-600">Sign in to access your account and continue your journey.</p>
-                    </div>
+                <div style={{ backgroundImage: `url(${theme})` }} className="hidden md:flex w-1/2 bg-[#fffbfb] items-center justify-center h-full">
                 </div>
+
             </div>
         </div>
     );

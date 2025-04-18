@@ -7,6 +7,7 @@ import loadingImage from "../assets/loading.webp";
 import { useEffect } from "react";
 import register from "../functions/registerUser.js";
 import checkIfValid from "../functions/checkIfValid.js";
+import theme from "../assets/theme.png";
 
 
 function RegisterPage() {
@@ -116,17 +117,12 @@ function RegisterPage() {
             <div className="flex flex-col md:flex-row w-full h-full">
 
                 {/* Right part*/}
-                <div className="hidden md:flex w-1/2 bg-[#fffbfb] items-center justify-center h-full">
-                    <div className="text-center p-8 flex items-center flex-col h-full">
-                        <img src={registerImage} alt="" className="h-102 w-102"/>
-                        <h2 className="text-4xl font-bold text-blue-600 mb-4">Welcome!</h2>
-                        <p className="text-lg text-gray-600">Create an account to begin your journey.</p>
-                    </div>
+                <div style={{ backgroundImage: `url(${theme})` }} className="hidden md:flex w-1/2 bg-[#fffbfb] items-center justify-center h-full">
                 </div>
 
                 {/* Left part - Register Form */}
                 <div className={` w-full md:w-1/2 flex items-center justify-center py-8 `}>
-                    <div className=" w-11/12 max-w-md px-6 py-8 bg-white rounded-lg shadow-md mx-4 max-h-[500px] overflow-y-auto">
+                    <div className=" w-11/12 max-w-md px-6 py-8 rounded-lg shadow-md mx-4 max-h-[500px] overflow-y-auto">
                         {loading ? (
                             <div className="flex flex-col items-center justify-center py-4">
                                 <img src={loadingImage} alt="" />

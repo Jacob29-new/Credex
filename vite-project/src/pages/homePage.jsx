@@ -6,6 +6,9 @@ import credit from "../assets/credit.svg";
 import collaboration from "../assets/colaboration.svg";
 import currency from "../assets/currency.svg";
 import redeem from "../assets/redeem.svg";
+import webdevelopment from "../assets/webdevelopment.svg";
+import design from "../assets/design.svg";
+import camera from "../assets/camera.svg";
 
 function HomePage() {
   return (
@@ -102,40 +105,41 @@ function HomePage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Example of service category */}
-          <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center flex-col ">
-            <img src={currency} className="w-32 h-32 object-cover mb-4 rounded " />
-            <h3 className="text-xl font-semibold text-gray-800">Web Development</h3>
-            <p className="text-gray-600">Build stunning websites with expert developers.</p>
+          <div className="group bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center flex-col ">
+            <img src={webdevelopment} className="w-32 h-32 object-cover mb-4 rounded transition-transform duration-300 group-hover:scale-120" />
+            <h3 className="text-xl font-semibold text-gray-800 transition-transform duration-300 group-hover:scale-95">Web Development</h3>
+            <p className="text-gray-600 transition-transform duration-300 group-hover:scale-95">Build stunning websites with expert developers.</p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-            <img src="/path/to/service-image2.jpg" alt="Service 2" className="w-full h-32 object-cover mb-4 rounded" />
-            <h3 className="text-xl font-semibold text-gray-800">Graphic Design</h3>
-            <p className="text-gray-600">Create eye-catching designs for your business.</p>
+          <div className="group bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center flex-col ">
+          <img src={design} className="w-32 h-32 object-cover mb-4 rounded transition-transform duration-300 group-hover:scale-120" />
+            <h3 className="text-xl font-semibold text-gray-800 transition-transform duration-300 group-hover:scale-95">Graphic Design</h3>
+            <p className="text-gray-600 transition-transform duration-300 group-hover:scale-95">Create eye-catching designs for your business.</p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-            <img src="/path/to/service-image3.jpg" alt="Service 3" className="w-full h-32 object-cover mb-4 rounded" />
-            <h3 className="text-xl font-semibold text-gray-800">Photography</h3>
-            <p className="text-gray-600">Capture moments with professional photographers.</p>
+          <div className="group bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center flex-col ">
+          <img src={camera} className="w-32 h-32 object-cover mb-4 rounded transition-transform duration-300 group-hover:scale-120" />
+            <h3 className="text-xl font-semibold text-gray-800 transition-transform duration-300 group-hover:scale-95">Photography</h3>
+            <p className="text-gray-600 transition-transform duration-300 group-hover:scale-95">Capture moments with professional photographers.</p>
           </div>
         </div>
         <div className="text-center mt-8">
-          <button className="bg-purple-600 text-white py-2 px-6 rounded-full font-semibold">
+          <Link to="/services" className="bg-[#f97316] hover:bg-black transition-all duration-300 text-white py-2 px-6 rounded-full font-semibold">
             Browse More Services
-          </button>
+          </Link>
         </div>
       </section>
 
       {/* Trust Section */}
       <section className="py-16 bg-white">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800">Trusted by Thousands</h2>
+          <h2 className="text-3xl font-bold text-gray-800">Trusted by ones of people!</h2>
         </div>
         <div className="flex justify-center">
-          <div className="w-full sm:w-2/3 md:w-1/3 p-6 bg-purple-100 text-purple-700 rounded-lg shadow-lg">
+          <div className="w-full sm:w-2/3 md:w-1/3 p-6 bg-orange-300 text-black rounded-lg shadow-lg flex flex-col items-center">
             <h3 className="text-xl font-semibold">"Great Experience!"</h3>
-            <p className="text-gray-600 mt-2">
-              “This platform helped me grow my business and connect with incredible people. The credit system is easy and trustworthy.”
+            <p className="text-gray-600 mt-2 text-center flex items-center">
+              “This platform helped me connect with incredible people. I highly recommend it.”
             </p>
+            <p>-Pavel</p>
           </div>
         </div>
       </section>

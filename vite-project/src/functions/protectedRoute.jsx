@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import LoadingPage from '../pages/loadingPage';
 
 
 function ProtectedRoute({ children }) {
@@ -28,7 +29,6 @@ function ProtectedRoute({ children }) {
     };
   
     useEffect(() => {
-
       checkAuth();
       
       const tokenExpiryTimer = setInterval(async () => {
@@ -50,7 +50,7 @@ function ProtectedRoute({ children }) {
 
 
     if (isAuthenticated === null) {
-        return <div>Loading...Loading...Loading...Loading...Loading...Loading...Loading...Loading...Loading...</div>; 
+        return <LoadingPage />; 
     }
     
 

@@ -9,6 +9,7 @@ import redeem from "../assets/redeem.svg";
 import webdevelopment from "../assets/webdevelopment.svg";
 import design from "../assets/design.svg";
 import camera from "../assets/camera.svg";
+import teamwork from "../assets/teamwork.png";
 
 function HomePage() {
   return (
@@ -96,6 +97,14 @@ function HomePage() {
             <p className="text-gray-600">Use credits to request services from others or trade them.</p>
           </div>
         </div>
+      </section>
+
+      {/* section with a big image */}
+      <section className="bg-[oklch(0.94_0.01_54.37)] w-full flex items-center justify-center">
+
+        
+          <img src={teamwork} className="w-128 h-128" />
+        
       </section>
 
       {/* Featured Services Section */}

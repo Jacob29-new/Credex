@@ -13,7 +13,7 @@ async function register(userInfo) {
     //hashes password 
     const hashedPassword = await hasher(password)
     console.log("succesfuly hashed password")
-
+    
     //checks if account is taken
     const accountTaken = await verifyRegistration(username,email)
     if(accountTaken) {

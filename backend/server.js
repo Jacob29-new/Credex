@@ -7,14 +7,13 @@ import jwt from 'jsonwebtoken';
 
 const app = express();
 
-
-
 app.use(cors({
     origin: 'http://localhost:5173', 
     credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());
+
 
 app.post('/register', async (req, resp) => {
     const registerUser = await register(req.body)

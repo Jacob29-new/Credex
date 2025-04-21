@@ -31,7 +31,7 @@ app.post('/login', async (req, resp) => {
         resp.cookie('JWT', loginUser.token, {
             httpOnly: true,
             sameSite: 'Lax', 
-            maxAge: 1 * 60 * 30 * 1000, 
+            maxAge: 1 * 60 * 60 * 1000, 
             path: '/' 
         });
         resp.json({message: "successfully logged in user", state: true})

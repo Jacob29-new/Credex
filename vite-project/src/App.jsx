@@ -12,6 +12,10 @@ import UnauthorizedPage from './pages/unauthorizedPage.jsx';
 import ForbiddenPage from './pages/forbiddenPage.jsx';
 import UserHomePage from './pages/userHomePage.jsx';
 import UserTaskPage from './pages/userTaskPage.jsx';
+import UserCreditsPage from './pages/userCreditsPage.jsx';
+import UserMessagesPage from './pages/userMessagesPage.jsx';
+import UserNotificationPage from './pages/userNotificationPage.jsx';
+import UserSettingsPage from './pages/userSettingsPage.jsx';
 
 
 function App() {
@@ -34,6 +38,26 @@ return (
         <Route path="/user/tasks" element={
           <ProtectedRoute>
             <UserTaskPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/credits" element={
+          <ProtectedRoute>
+            <UserCreditsPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/messages" element={
+          <ProtectedRoute>
+            <UserMessagesPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/notifications" element={
+          <ProtectedRoute>
+            <UserNotificationPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/settings" element={
+          <ProtectedRoute>
+            <UserSettingsPage />
           </ProtectedRoute>
         } />
         <Route path="/error" element={<ErrorPage />}></Route> 

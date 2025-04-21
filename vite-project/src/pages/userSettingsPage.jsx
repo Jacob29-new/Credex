@@ -1,15 +1,15 @@
 import { BigScreenNavbar, SmallScreenNavbar } from "../components/userPageNavbars";
 
 
-function UserTaskPage() {
+function UserSettingsPage() {
   return (
     <div className="h-full w-full flex flex-row">
       <BigScreenNavbar />
       <SmallScreenNavbar />
-      <h1>User Task Page</h1>
-      <p>This is the user task page.</p>
+      <h1>User settings Page</h1>
+      <p>This is the user settings page.</p>
     </div>
   );
 }   
 
-export default UserTaskPage
+export default UserSettingsPage

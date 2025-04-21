@@ -6,6 +6,8 @@ async function logout() {
     });
     
     console.log('Logged out successfully');
+    window.location.href = '/login';
+
 
 }
 

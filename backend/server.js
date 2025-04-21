@@ -83,6 +83,24 @@ app.get("/authenticated", async (req, resp) => {
     resp.json(true);
 }); 
 
+
+app.get("/get-jwt", (req, res) => {
+    const token = req.cookies['JWT'];
+
+    console.log(token);
+
+    if (!token) {
+        return res.status(401).json({ message: "No token found" });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        return res.json(decoded);  
+    } catch (err) {
+        return res.status(401).json({ message: "Failed to verify token" });
+    }
+});
+
 const port = 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

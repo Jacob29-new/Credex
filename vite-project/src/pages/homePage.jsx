@@ -140,7 +140,7 @@ function HomePage() {
       {/* Trust Section */}
       <section className="py-16 bg-white">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800">Trusted by ones of people!</h2>
+          <h2 className="text-3xl font-bold text-gray-800">Trusted by one person!</h2>
         </div>
         <div className="flex justify-center">
           <div className="w-full sm:w-2/3 md:w-1/3 p-6 bg-orange-300 text-black rounded-lg shadow-lg flex flex-col items-center">

@@ -33,7 +33,7 @@ function BigScreenNavbar() {
 
     return (
         <>
-            <div className={`relative hidden xl:flex lg:flex md:flex flex-col h-full left-0 top-0 bg-[hsl(30,3.33%,11.76%)] items-center transition-all duration-300 ${isOpen && location.pathname === "/user/home" ? "w-77" : ""}  ${isOpen ? "w-64" : "w-12 flex flex-col items-center"} shadow-right-4xl`}>
+            <div className={`relative hidden xl:flex lg:flex md:flex flex-col h-full left-0 top-0 bg-[hsl(30,3.33%,11.76%)] items-center transition-all duration-300 ${isOpen ? "w-64" : "w-12 flex flex-col items-center"} shadow-right-4xl`}>
                 <div className="items-center flex h-10 w-9/10 mt-3">
                     <img onClick={() => { setIsOpen(prevState => {const newState = !prevState; if (!newState) {setIsPopupVisible(false); }return newState;});}} src={closedNavbar} className={`absolute w-6 h-6 m-2 transition-all duration-200  ${isOpen ? "opacity-0" : "opacity-100"}`} />
                     <img onClick={() => { setIsOpen(prevState => {const newState = !prevState; if (!newState) {setIsPopupVisible(false); }return newState;});}} src={openedNavbar} className={`absolute w-6 h-6 m-2 transition-all duration-200  ${isOpen ? "opacity-100" : "opacity-0"}`} />

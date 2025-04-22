@@ -35,7 +35,28 @@ return (
             <UserHomePage />
           </ProtectedRoute>
         } />
-        <Route path="/user/tasks" element={
+        <Route path="/user/tasks" element={<Navigate to="/user/tasks/my" />} />
+        <Route path="/user/tasks/my" element={
+          <ProtectedRoute>
+            <UserTaskPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/tasks/find" element={
+          <ProtectedRoute>
+            <UserTaskPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/tasks/pending" element={
+          <ProtectedRoute>
+            <UserTaskPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/tasks/completed" element={
+          <ProtectedRoute>
+            <UserTaskPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/tasks/post" element={
           <ProtectedRoute>
             <UserTaskPage />
           </ProtectedRoute>

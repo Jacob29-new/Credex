@@ -2,7 +2,7 @@ import { BigScreenNavbar } from "../components/userPageNavbars";
 import { SmallScreenNavbar } from "../components/userPageNavbars";
 import credex from "../assets/credex_white_bg.png";
 import { useNavigate } from "react-router-dom";
-import dbImage from "../assets/db.svg";
+import addTask from "../functions/addTask.js";
 import addImage from "../assets/add_circle.svg";
 import { useState, useEffect, use } from "react";
 import { useLocation } from "react-router-dom";
@@ -15,10 +15,26 @@ function UserTaskPage() {
 
 
     useEffect(() => {
+        resetFields();
         if (location.pathname === '/user/tasks/post') {
             setCurrentStep(1);
         }
     }, [location.pathname]);
+
+    function resetFields() {
+       setTitle('');
+       setDescription('');
+       setCategory('');
+       setTaskLocation('');
+       setTaskTime('');
+       setDeadline('');
+       setPrice('');
+       setDuration('');
+       setWorkerPreferences('');
+       setWorkerProficiency('');
+       setWorkerRating('');
+       setTaskUrgency('');
+    }    
 
     //post task states
     const [title, setTitle] = useState('');
@@ -68,6 +84,36 @@ function UserTaskPage() {
         } else {
             return true; 
         }
+    }   
+
+    async function postTask( title,
+        description,
+        category,
+        taskLocation,
+        taskTime,
+        deadline,
+        price,
+        duration,   
+        workerPreferences,
+        workerProficiency,
+        workerRating,
+        taskUrgency 
+    ) {
+        if (checkIfEmpty()) {
+            await addTask({
+                title,
+                description,
+                category,
+                taskLocation,
+                taskTime,
+                deadline,
+                price,
+                duration,   
+                workerPreferences,
+                workerProficiency,
+                workerRating,
+                taskUrgency,
+            });}
     }
 
     return (
@@ -76,7 +122,7 @@ function UserTaskPage() {
             <SmallScreenNavbar />
             
             
-            <div className="flex flex-col items-center h-full  w-full">
+            <div className="flex flex-col items-center h-full w-full overflow-y-scroll">
                 <div className="w-full flex flex-row items-center justify-end p-5">
                     <img src={credex} className="h-7 w-7" alt="" />
                     <p className="uppercase text-black text-xl font-bold">credex</p>                    
@@ -104,9 +150,9 @@ function UserTaskPage() {
                     <div className="flex flex-row items-center  w-8/10">
                         <div onClick={ () => setCurrentStep(1)} className={`cursor-pointer h-8 w-17 transition duration-500 ease-in-out rounded-full border-2 border-black flex items-center justify-center font-bold text-xl ${currentStep >= 2 ? 'bg-green-500' : ''}`}>1</div>
                         <div className={`w-full h-1 bg-black transition duration-500 ease-in-out  ${currentStep >= 2 ? 'bg-green-500' : ''}`}></div>
-                        <div onClick={ () => setCurrentStep(2)} className={`cursor-pointer h-8 w-17 rounded-full transition duration-500 ease-in-out border-2 border-black flex items-center justify-center font-bold text-xl ${currentStep >= 3 ? 'bg-green-500' : ''}`}>2</div>
+                        <div className={`cursor-pointer h-8 w-17 rounded-full transition duration-500 ease-in-out border-2 border-black flex items-center justify-center font-bold text-xl ${currentStep >= 3 ? 'bg-green-500' : ''}`}>2</div>
                         <div className={`w-full h-1 bg-black transition duration-500 ease-in-out ${currentStep >= 3 ? 'bg-green-500' : ''}`}></div>
-                        <div onClick={ () => setCurrentStep(3)} className={`cursor-pointer h-8 w-17 rounded-full  transition duration-500 ease-in-out border-2 border-black flex items-center ${currentStep >= 4 ? 'bg-green-500' : ''} justify-center font-bold text-xl`}>3</div>
+                        <div className={`cursor-pointer h-8 w-17 rounded-full  transition duration-500 ease-in-out border-2 border-black flex items-center ${currentStep >= 4 ? 'bg-green-500' : ''} justify-center font-bold text-xl`}>3</div>
                     </div>
                     <div className="w-8/10 justify-start">
                         <p className="ml-2 mr-auto">{currentStep}:  {currentStep === 1 ? 'Describe your task' : currentStep === 2 ? 'Add task details' : currentStep === 3 ? 'Confirm details' : currentStep === 4 ? 'Done' : ''}</p>
@@ -147,7 +193,7 @@ function UserTaskPage() {
                                 {errors.deadline && <p className="text-red-500 font-medium text-xs mt-1">field must not be empty</p>}
                             </div>
                             <div className="">
-                                <p className="text-sm font-medium text-gray-700 mb-1">Task price ( in time tokens )</p>
+                                <p className="text-sm font-medium text-gray-700 mb-1">Task reward ( in time tokens )</p>
                                 <input value={price} onChange={(e) => setPrice(e.target.value)} className={`border-b-2 focus:outline-none p-1 px-2 focus:border-green-500 transtition-all duration-300 w-8/10 ${errors.price ? 'border-red-500' : ''}`} type="number" />
                                 {errors.price && <p className="text-red-500 font-medium text-xs mt-1">field must not be empty</p>}
                             </div>
@@ -209,7 +255,7 @@ function UserTaskPage() {
                                 <h3 className="text-xl font-semibold text-gray-700 mb-4">Additional Details</h3>
                                 <div className="space-y-2">
                                     <p className="text-gray-600"><strong>Deadline:</strong> {deadline}</p>
-                                    <p className="text-gray-600"><strong>Price:</strong> {price}</p>
+                                    <p className="text-gray-600"><strong>Reward:</strong> {price}</p>
                                     <p className="text-gray-600"><strong>Duration:</strong> {duration}</p>
                                     <p className="text-gray-600"><strong>Worker Preferences:</strong> {workerPreferences}</p>
                                     <p className="text-gray-600"><strong>Worker Proficiency:</strong> {workerProficiency}</p>
@@ -220,7 +266,7 @@ function UserTaskPage() {
 
                         
                         <div className="w-8/10 flex justify-end">
-                            <button onClick={() => {setCurrentStep(currentStep + 1);}} className="flex items-center justify-center px-5 py-1 mt-5 text-lg font-medium text-white transition-all duration-300 bg-green-500 rounded-lg shadow-md hover:bg-green-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 transform hover:scale-105 mb-3">Post task</button>
+                            <button onClick={async () => { resetFields(); await postTask(title, description, category, taskLocation, taskTime, deadline, price, duration, workerPreferences, workerProficiency, workerRating, taskUrgency); setCurrentStep(currentStep + 1);}} className="flex items-center justify-center px-5 py-1 mt-5 text-lg font-medium text-white transition-all duration-300 bg-green-500 rounded-lg shadow-md hover:bg-green-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 transform hover:scale-105 mb-3">Post task</button>
                         </div>
                         </>
                     )}

@@ -12,4 +12,16 @@ async function listDatabase() {
     }
 }
 
-listDatabase();
+async function listTaskDatabase() {
+    console.log("function called");
+    try {
+        const users = db.query("SELECT * FROM tasks").all();
+        console.log(users);
+        return users;
+    } catch (error) {
+        console.error("Error retrieving tasks:", error);
+        return [];
+    }
+}
+
+listTaskDatabase();

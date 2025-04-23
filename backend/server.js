@@ -4,6 +4,7 @@ import register from './functions/registerFunctions/register.js';
 import login from './functions/loginFunctions/login.js';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
+import addTask from './functions/taskFunctions/addTask.js';
 
 const app = express();
 
@@ -82,6 +83,35 @@ app.get("/authenticated", async (req, resp) => {
 
     resp.json(true);
 }); 
+
+app.post("/add-task", async (req, res) => {
+    console.log("request got to server / add-task")
+    try {
+        const token = req.cookies['JWT'];  
+        if (!token) {
+            return res.json({ error: 'Authentication required' });
+        }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const userId = decoded.id;
+        console.log(req.body);
+
+      
+        await addTask(req.body, userId);  
+
+        res.json({ message: "Task added successfully" });
+    } catch (err) {
+        console.error('JWT Verification Error:', err);
+
+        if (err.name === 'JsonWebTokenError') {
+            return res.status(403).json({ error: 'Invalid token' });  
+        } else if (err.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expired' });  
+        }
+        
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 
 
 app.get("/get-jwt", (req, res) => {

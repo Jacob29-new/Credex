@@ -5,6 +5,8 @@ import login from './functions/loginFunctions/login.js';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import addTask from './functions/taskFunctions/addTask.js';
+import getCurrentTasks from "./functions/taskFunctions/getCurrentTasks.js"
+import removeMyTask from "./functions/taskFunctions/removeMyTask.js"
 
 const app = express();
 
@@ -93,7 +95,6 @@ app.post("/add-task", async (req, res) => {
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.id;
-        console.log(req.body);
 
       
         await addTask(req.body, userId);  
@@ -112,12 +113,31 @@ app.post("/add-task", async (req, res) => {
     }
 });
 
+app.get("/getcurrenttasks", async (req, res) => {
+
+    const token = req.cookies['JWT'];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const userId = decoded.id;
+
+    const info = await getCurrentTasks(userId)
+    return res.json(info)
+})
+
+app.post("/removetask", async (req, res) => {
+    const id = req.body.id;
+    try {
+        removeMyTask(id);
+        res.json({ message: "Task removed successfully" });
+    } catch (error) {
+        res.json({ error: "Failed to remove task" });
+    }   
+})
+
 
 
 app.get("/get-jwt", (req, res) => {
     const token = req.cookies['JWT'];
 
-    console.log(token);
 
     if (!token) {
         return res.status(401).json({ message: "No token found" });

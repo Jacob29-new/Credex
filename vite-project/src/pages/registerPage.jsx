@@ -8,9 +8,12 @@ import { useEffect } from "react";
 import register from "../functions/registerUser.js";
 import checkIfValid from "../functions/checkIfValid.js";
 import theme from "../assets/theme.png";
+import { useNavigate } from "react-router-dom";
 
 
 function RegisterPage() {
+
+    const navigate = useNavigate();
     
     //inputs
     const [firstName, setFirstName] = useState("")
@@ -84,6 +87,9 @@ function RegisterPage() {
         setLoading(false)
         if(result.success === true) {
             setSuccess(true)
+            setTimeout(() => {
+                navigate('/login')
+            }, 1000);
         } else {
             setSuccess(false)
             setMessage(result.message)
@@ -121,8 +127,8 @@ function RegisterPage() {
                 </div>
 
                 {/* Left part - Register Form */}
-                <div className={` w-full md:w-1/2 flex items-center justify-center py-8 `}>
-                    <div className=" w-11/12 max-w-md px-6 py-8 rounded-lg shadow-md mx-4 max-h-[500px] overflow-y-auto">
+                <div className={` w-full md:w-1/2 flex items-center justify-center py-8 overflow-y-auto`}>
+                    <div className=" w-11/12 max-w-md px-6 py-8 rounded-lg shadow-md mx-4 mt-50">
                         {loading ? (
                             <div className="flex flex-col items-center justify-center py-4">
                                 <img src={loadingImage} alt="" />

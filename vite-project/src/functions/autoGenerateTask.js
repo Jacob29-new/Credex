@@ -1,0 +1,347 @@
+import addTask from "./addTask";
+
+async function autoGenerateTask() {
+    const number = Math.floor(Math.random() * 20);
+
+    if (number === 0) {
+        await addTask({
+            title: "Prepare Dinner for 4 People",
+            description: "Prepare a three-course dinner including a vegetable appetizer, chicken main course, and chocolate mousse dessert.",
+            category: "Cooking",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "19:00",
+            deadline: "2025-05-28T22:23",
+            price: 40,
+            duration: 60,
+            workerPreferences: "Experienced home cook preferred.",
+            workerProficiency: 7,
+            workerRating: 4,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 1) {
+        await addTask({
+            title: "Create a Customized Video Game",
+            description: "Develop a game combining action and puzzle elements using Unity or Unreal Engine.",
+            category: "Gaming",
+            taskLocation: "Remote",
+            taskTime: "22:27",
+            deadline: "2025-06-10T20:00",
+            price: 100,
+            duration: 180,
+            workerPreferences: "Game development experience required.",
+            workerProficiency: 9,
+            workerRating: 5,
+            taskUrgency: 1,
+        });
+    }
+
+    if (number === 2) {
+        await addTask({
+            title: "Walk My Dog",
+            description: "Take my Labrador out for a 45-minute walk around the neighborhood.",
+            category: "Pets",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "17:00",
+            deadline: "2025-05-28T18:00",
+            price: 25,
+            duration: 45,
+            workerPreferences: "Comfortable with large dogs.",
+            workerProficiency: 6,
+            workerRating: 4,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 3) {
+        await addTask({
+            title: "Fix a Leaky Faucet",
+            description: "Kitchen faucet leaks persistently. Basic tools available.",
+            category: "Home Repair",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "13:00",
+            deadline: "2025-05-29T15:00",
+            price: 35,
+            duration: 45,
+            workerPreferences: "Basic plumbing knowledge.",
+            workerProficiency: 7,
+            workerRating: 4,
+            taskUrgency: 3,
+        });
+    }
+
+    if (number === 4) {
+        await addTask({
+            title: "Clean My Apartment",
+            description: "2-bedroom flat needs a deep clean including kitchen and bathroom.",
+            category: "Cleaning",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "08:30",
+            deadline: "2025-05-28T12:00",
+            price: 60,
+            duration: 90,
+            workerPreferences: "Detail-oriented and efficient cleaner.",
+            workerProficiency: 6,
+            workerRating: 4,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 5) {
+        await addTask({
+            title: "Assemble IKEA Furniture",
+            description: "Assemble a wardrobe and nightstand from IKEA.",
+            category: "Handyman",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "16:00",
+            deadline: "2025-05-30T19:00",
+            price: 55,
+            duration: 75,
+            workerPreferences: "Can follow IKEA instructions independently.",
+            workerProficiency: 7,
+            workerRating: 4,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 6) {
+        await addTask({
+            title: "Translate Document (EN to CZ)",
+            description: "Translate a legal contract from English to Czech.",
+            category: "Translation",
+            taskLocation: "Remote",
+            taskTime: "10:00",
+            deadline: "2025-05-27T23:59",
+            price: 50,
+            duration: 60,
+            workerPreferences: "Legal translation background preferred.",
+            workerProficiency: 9,
+            workerRating: 5,
+            taskUrgency: 3,
+        });
+    }
+
+    if (number === 7) {
+        await addTask({
+            title: "Math Tutoring for Teen",
+            description: "Assist with algebra homework for high school student.",
+            category: "Education",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "18:00",
+            deadline: "2025-05-31T19:00",
+            price: 40,
+            duration: 60,
+            workerPreferences: "Experience with teens and secondary math.",
+            workerProficiency: 8,
+            workerRating: 5,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 8) {
+        await addTask({
+            title: "Design a Bakery Logo",
+            description: "Modern logo needed for a local pastry shop.",
+            category: "Design",
+            taskLocation: "Remote",
+            taskTime: "14:00",
+            deadline: "2025-05-26T20:00",
+            price: 70,
+            duration: 120,
+            workerPreferences: "Graphic design portfolio required.",
+            workerProficiency: 9,
+            workerRating: 5,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 9) {
+        await addTask({
+            title: "Run Grocery and Pharmacy Errands",
+            description: "Pick up essential groceries and a prescription.",
+            category: "Errands",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "11:00",
+            deadline: "2025-05-28T13:00",
+            price: 30,
+            duration: 45,
+            workerPreferences: "Reliable and punctual.",
+            workerProficiency: 6,
+            workerRating: 4,
+            taskUrgency: 3,
+        });
+    }
+
+    if (number === 10) {
+        await addTask({
+            title: "Fix Bicycle Brakes",
+            description: "Front brakes on bike are loose and need tightening.",
+            category: "Repair",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "12:00",
+            deadline: "2025-05-29T15:00",
+            price: 25,
+            duration: 30,
+            workerPreferences: "Knowledge of basic bike repair.",
+            workerProficiency: 6,
+            workerRating: 4,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 11) {
+        await addTask({
+            title: "Basic Website Setup",
+            description: "Set up a WordPress site with a contact form and simple blog layout.",
+            category: "IT",
+            taskLocation: "Remote",
+            taskTime: "13:00",
+            deadline: "2025-05-30T17:00",
+            price: 80,
+            duration: 90,
+            workerPreferences: "WordPress experience required.",
+            workerProficiency: 8,
+            workerRating: 5,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 12) {
+        await addTask({
+            title: "Move Small Furniture",
+            description: "Help move a table and two chairs within the building.",
+            category: "Moving",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "10:30",
+            deadline: "2025-05-27T11:00",
+            price: 30,
+            duration: 30,
+            workerPreferences: "Physically able to lift ~20kg.",
+            workerProficiency: 5,
+            workerRating: 4,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 13) {
+        await addTask({
+            title: "Paint One Room",
+            description: "Paint a small bedroom (walls only, paint provided).",
+            category: "Renovation",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "09:00",
+            deadline: "2025-06-01T15:00",
+            price: 90,
+            duration: 180,
+            workerPreferences: "Prior experience painting interiors.",
+            workerProficiency: 7,
+            workerRating: 5,
+            taskUrgency: 1,
+        });
+    }
+
+    if (number === 14) {
+        await addTask({
+            title: "Repair Laptop Screen",
+            description: "Replace a cracked screen on an HP laptop. Parts provided.",
+            category: "Electronics",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "15:00",
+            deadline: "2025-05-29T17:00",
+            price: 60,
+            duration: 60,
+            workerPreferences: "Electronics repair background required.",
+            workerProficiency: 8,
+            workerRating: 5,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 15) {
+        await addTask({
+            title: "Babysit for 3 Hours",
+            description: "Watch over a 5-year-old in the afternoon. Snacks provided.",
+            category: "Childcare",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "14:00",
+            deadline: "2025-05-28T17:00",
+            price: 45,
+            duration: 180,
+            workerPreferences: "Experience with young children required.",
+            workerProficiency: 7,
+            workerRating: 4,
+            taskUrgency: 3,
+        });
+    }
+
+    if (number === 16) {
+        await addTask({
+            title: "Water Houseplants While Away",
+            description: "Water 12 indoor plants 3 times a week for two weeks.",
+            category: "Gardening",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "09:00",
+            deadline: "2025-06-05T12:00",
+            price: 40,
+            duration: 30,
+            workerPreferences: "Plant care experience preferred.",
+            workerProficiency: 5,
+            workerRating: 4,
+            taskUrgency: 1,
+        });
+    }
+
+    if (number === 17) {
+        await addTask({
+            title: "Organize Digital Photos",
+            description: "Sort and label ~500 photos into folders by year and event.",
+            category: "Digital Help",
+            taskLocation: "Remote",
+            taskTime: "18:00",
+            deadline: "2025-06-01T22:00",
+            price: 50,
+            duration: 120,
+            workerPreferences: "Organized and tech-savvy.",
+            workerProficiency: 6,
+            workerRating: 4,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 18) {
+        await addTask({
+            title: "Write Product Descriptions",
+            description: "Write short marketing-friendly descriptions for 20 items.",
+            category: "Writing",
+            taskLocation: "Remote",
+            taskTime: "11:00",
+            deadline: "2025-05-30T17:00",
+            price: 45,
+            duration: 90,
+            workerPreferences: "Experience with e-commerce or copywriting.",
+            workerProficiency: 8,
+            workerRating: 5,
+            taskUrgency: 2,
+        });
+    }
+
+    if (number === 19) {
+        await addTask({
+            title: "Set Up a Home WiFi Network",
+            description: "Configure modem and router, set up security, and test connectivity.",
+            category: "Tech Support",
+            taskLocation: "Dejvická 58, Praha 8",
+            taskTime: "10:00",
+            deadline: "2025-05-28T12:00",
+            price: 40,
+            duration: 60,
+            workerPreferences: "Networking knowledge required.",
+            workerProficiency: 7,
+            workerRating: 5,
+            taskUrgency: 2,
+        });
+    }
+}
+
+export default autoGenerateTask;

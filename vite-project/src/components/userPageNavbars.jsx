@@ -43,7 +43,7 @@ function BigScreenNavbar() {
                     <img src={home} className={` w-6 h-6 m-2 transition-all duration-200`} />
                     <p className={`text-sm font-medium text-gray-200 tracking-wide transition-all duration-200 ${isOpen ? "opacity-100" : "opacity-0"}`}>Home</p>
                 </div>
-                <div onClick={() => {navigate("/user/tasks") ;}} className={`cursor-pointer items-center flex flex-row h-10 w-9/10 mt-2 transition-all duration-100 rounded-xl hover:bg-black ${window.location.pathname === "/user/tasks" ? "bg-gray-700 hover:bg-gray-700" : ""}`}>
+                <div onClick={() => {navigate("/user/tasks") ;}} className={`cursor-pointer items-center flex flex-row h-10 w-9/10 mt-2 transition-all duration-100 rounded-xl hover:bg-black ${window.location.pathname.startsWith("/user/tasks") ? "bg-gray-700 hover:bg-gray-700" : ""}`}>
                     <img src={tasks} className={` w-6 h-6 m-2 transition-all duration-200`} />
                     <p className={`text-sm font-medium text-gray-200 tracking-wide transition-all duration-200 ${isOpen ? "opacity-100" : "opacity-0"}`}>Tasks</p>
                 </div>

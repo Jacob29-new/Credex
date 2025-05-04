@@ -24,4 +24,4 @@ async function listTaskDatabase() {
     }
 }
 
-listTaskDatabase();
+listDatabase();

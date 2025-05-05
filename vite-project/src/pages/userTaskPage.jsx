@@ -3,26 +3,60 @@ import { SmallScreenNavbar } from "../components/userPageNavbars";
 import credex from "../assets/credex_white_bg.png";
 import { useNavigate } from "react-router-dom";
 import addTask from "../functions/addTask.js";
+import acceptTask from "../functions/acceptTask.js"
 import addImage from "../assets/add_circle.svg";
 import { useState, useEffect, use } from "react";
 import { useLocation } from "react-router-dom";
 import getCurrentTasks from "../functions/getCurrentTasks.js"
+import getFindTasks from "../functions/getFindTasks.js"
+import getMyTodoTasks from "../functions/getMyTodoTasks.js"
 import removeMyTaskFunction from "../functions/removeMyTaskFunction.js"
-import { Clock, MapPin, Tag, Trash2, Award } from "lucide-react";
+import { Clock, Award, User, Calendar, MapPin, Flame, Star, Briefcase, Check, Tag, Trash2 } from 'lucide-react';
 import autoGenerateTask from "../functions/autoGenerateTask.js";
 
 function UserTaskPage() {
 
+
     const [myTasks, setMyTasks] = useState([]);
+    const [findTasks, setFindTasks] = useState([]);
+    const [myTodoTasks, setMyTodoTasks] = useState([]);
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [categoryFilter, setCategoryFilter] = useState(""); 
+    
+    const filteredTasks = findTasks.filter(task =>
+      task.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (categoryFilter === "" || task.category.toLowerCase() === categoryFilter.toLowerCase())
+    );
 
     async function loadMyTasks() {
         const tasks = await getCurrentTasks();
         setMyTasks(tasks)
-        console.log(tasks);
+        console.log("These are my tasks:",tasks);
+    }
+
+    async function loadFindTasks() {
+        const tasks = await getFindTasks();
+        setFindTasks(tasks)
+        console.log("These are find tasks:",tasks);
+    }
+
+    async function handleAcceptTask(taskId) {
+        console.log("Accept task button clicked, task id:", taskId);
+        await acceptTask({ taskId });
+    }
+
+    async function loadMyTodoTasks() {
+        console.log("fetching todo tasks")
+        const tasks = await getMyTodoTasks()
+        setMyTodoTasks(tasks)
+        console.log("todo tasks:", tasks)
     }
     
     useEffect(() => {
         loadMyTasks()
+        loadFindTasks()
+        loadMyTodoTasks()
     }, []);
 
     async function removeMyTask(id) {
@@ -168,6 +202,57 @@ function UserTaskPage() {
                             <p>Post a new a task</p>
                             <img onClick={() => {setCurrentStep(1); navigate('/user/tasks/post')}} className="w-10 h-10 cursor-pointer hover:scale-110 rounded-full" src={addImage} alt="" />
                         </div>
+                         {myTodoTasks.length > 0 ? (
+                            <>
+                            <p className="text-2xl font-bold">My to-do tasks</p>
+                            {myTodoTasks.map((task, index) => (
+                                <div 
+                                key={index} 
+                                className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-200"
+                                >
+                                <div className="p-5">
+                                    <div className="flex justify-between items-start mb-2">
+                                    <h2 className="text-lg font-semibold text-gray-800 mb-2">{task.title}</h2>
+                                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full flex items-center">
+                                        <Tag size={12} className="mr-1" />
+                                        {task.category}
+                                    </span>
+                                    </div>
+                                    
+                                    <p className="text-gray-600 mb-4 text-sm">{task.description}</p>
+                                    
+                                    <div className="space-y-2">
+                                    <div className="flex items-center text-gray-500 text-xs">
+                                        <MapPin size={14} className="mr-2" />
+                                        <span>{task.taskLocation}</span>
+                                    </div>
+                                    
+                                    <div className="flex items-center text-gray-500 text-xs">
+                                        <Clock size={14} className="mr-2" />
+                                        <span>Due: {task.deadline}</span>
+                                    </div>
+                                    
+                                    <div className="flex items-center text-gray-500 text-xs">
+                                        <Award size={14} className="mr-2" />
+                                        <span>Offer: {task.credits_offered} {task.credits_offered === 1 ? "credex" : "credexes"}</span>
+                                    </div>
+                                    </div>
+                                </div>
+                                
+                                {/* <div className="border-t border-gray-200 bg-gray-50 px-4 py-3 flex justify-end">
+                                    <button 
+                                    className="flex items-center text-sm text-red-600 hover:text-red-800 transition-colors duration-200 focus:outline-none"
+                                    onClick={() => removeMyTask(task.id)}>
+                                    <Trash2 size={16} className="mr-1" />
+                                    Remove
+                                    </button>
+                                </div> */}
+                                </div>
+                            ))}
+                            </>
+                        ) : (
+                            <p>No tasks found.</p>
+                        )} 
                         {myTasks.length > 0 ? (
                             <>
                             <p className="text-2xl font-bold">My posted tasks</p>
@@ -223,9 +308,104 @@ function UserTaskPage() {
                     )}
                 </div>
                     {location.pathname === '/user/tasks/find' && (
-                        <div>hi</div>
+                        <>
+                            <div className="w-8/10 p-5">
+                                <h2 className="text-2xl font-semibold mb-5">Find a Task</h2>
+                                
+                                <div className="mb-4">
+                                    <input
+                                        type="text"
+                                        placeholder="Search tasks by name..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </div>
+
+                            
+                                <div className="mb-4">
+                                    <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} 
+                                        className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select Category</option>
+                                        <option value="coding">Coding</option>
+                                        <option value="cleaning">Cleaning</option>
+                                        <option value="design">Design</option>
+                                        <option value="writing">Writing</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="consulting">Consulting</option>
+                                    </select>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-10">
+                                {filteredTasks.map((task) => (
+                                    <div id={task.id} className="border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white overflow-hidden w-full">
+                                        <div className="p-4 w-full">
+                                        <div className="mb-3">
+                                            <h3 className="text-lg font-semibold text-gray-800">{task.title}</h3>
+                                            <span className="inline-block mt-1 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                                            {task.category}
+                                            </span>
+                                        </div>
+
+                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">{task.description}</p>
+
+                                        <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-500">
+                                            <div className="flex items-center">
+                                            <Clock className="h-4 w-4 mr-1" />
+                                            Duration: {task.duration}
+                                            </div>
+                                            <div className="flex items-center">
+                                            <Calendar className="h-4 w-4 mr-1" />
+                                            Deadline: {task.deadline}
+                                            </div>
+                                            <div className="flex items-center">
+                                            <MapPin className="h-4 w-4 mr-1" />
+                                            Location: {task.taskLocation}
+                                            </div>
+                                            <div className="flex items-center">
+                                            <Flame className="h-4 w-4 mr-1" />
+                                            Urgency: {task.taskUrgency}
+                                            </div>
+                                            <div className="flex items-center">
+                                            <Star className="h-4 w-4 mr-1" />
+                                            Required Rating: {task.workerRating}
+                                            </div>
+                                            <div className="flex items-center">
+                                            <Briefcase className="h-4 w-4 mr-1" />
+                                            Status: {task.status}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between text-gray-700 text-sm font-medium mb-4">
+                                            <div className="flex items-center gap-2">
+                                            <Award className="h-4 w-4" />
+                                            {task.credits_offered} credits
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                            <User className="h-4 w-4" />
+                                            {task.creator_username}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-end">
+                                            <button
+                                            onClick={() => handleAcceptTask(task.id)} 
+                                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium transition-transform hover:scale-105 shadow-sm hover:shadow-md flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                            <Check className="w-4 h-4" />
+                                            Accept Task
+                                            </button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    ))}
+
+                                </div>
+
+                            </div>
+                        </>
                     )}
-                
+
+               
+
                     {location.pathname === '/user/tasks/post' && (
                         <>
                         <div className="flex flex-row items-center  w-8/10">

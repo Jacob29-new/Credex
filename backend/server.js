@@ -6,7 +6,10 @@ import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import addTask from './functions/taskFunctions/addTask.js';
 import getCurrentTasks from "./functions/taskFunctions/getCurrentTasks.js"
-import removeMyTask from "./functions/taskFunctions/removeMyTask.js"
+import getFindTasks from "./functions/taskFunctions/getFindTasks.js";
+import removeMyTask from "./functions/taskFunctions/removeMyTask.js";
+import acceptTask from './functions/taskFunctions/acceptTask.js';
+import getMyTodoTasks from './functions/taskFunctions/getMyTodoTasks.js';
 
 const app = express();
 
@@ -95,9 +98,10 @@ app.post("/add-task", async (req, res) => {
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.id;
+        const username = decoded.username;
 
       
-        await addTask(req.body, userId);  
+        await addTask(req.body, userId, username);
 
         res.json({ message: "Task added successfully" });
     } catch (err) {
@@ -121,6 +125,52 @@ app.get("/getcurrenttasks", async (req, res) => {
 
     const info = await getCurrentTasks(userId)
     return res.json(info)
+})
+
+app.get("/getmytodotasks", async (req, res) => {
+    const token = req.cookies['JWT'];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const userId = decoded.id;
+
+    const info = await getMyTodoTasks(userId);
+    return res.json(info)
+})
+
+app.post("/accept-task", async (req, res) => {
+    try {
+        const token = req.cookies['JWT'];
+        if (!token) {
+            return res.status(401).json({ error: 'Authentication required' });
+        }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const userId = decoded.id;
+
+        const { taskId } = req.body;
+        if (!taskId) {
+            return res.status(400).json({ error: 'Task ID required' });
+        }
+
+        const info = await acceptTask(userId, taskId);
+        return res.json(info);
+    } catch (err) {
+        console.error('Error in /accept-task:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.get("/getfindtasks", async (req, res) => {
+
+    const token = req.cookies['JWT'];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const userId = decoded.id;
+
+    try {
+        const info = await getFindTasks(userId);
+        return res.json(info);
+    } catch (error) {
+        console.error("Error in /getfindtasks:", error);
+        res.status(500).json({ error: "Failed to retrieve tasks" });
+    }
 })
 
 app.post("/removetask", async (req, res) => {

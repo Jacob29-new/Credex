@@ -18,6 +18,7 @@ try {
             taskUrgency TEXT NOT NULL,
             credits_offered INTEGER NOT NULL,
             creator_id INTEGER NOT NULL,
+            creator_username TEXT NOT NULL,
             worker_id INTEGER,
             status TEXT DEFAULT 'posted',
             created_at TEXT DEFAULT CURRENT_TIMESTAMP,
@@ -31,7 +32,7 @@ try {
     throw new Error('Failed to create table in database');
 }
 
-function addTask(info, userId) {
+function addTask(info, userId, username) {
     console.log("backend addTask function called")
     const { title, description, category, taskLocation, taskTime, deadline, price, duration, workerPreferences, workerProficiency, workerRating, taskUrgency } = info;
     
@@ -39,10 +40,10 @@ function addTask(info, userId) {
         const query = `
             INSERT INTO tasks (
                 title, description, category, taskLocation, taskTime, deadline, credits_offered, duration, 
-                workerPreferences, workerProficiency, workerRating, taskUrgency, creator_id
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                workerPreferences, workerProficiency, workerRating, taskUrgency, creator_id, creator_username
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const params = [title, description, category, taskLocation, taskTime, deadline, price, duration, workerPreferences, workerProficiency, workerRating, taskUrgency, userId];
+        const params = [title, description, category, taskLocation, taskTime, deadline, price, duration, workerPreferences, workerProficiency, workerRating, taskUrgency, userId, username];
         db.run(query, params);
         
         console.log("Task successfully added to the database");

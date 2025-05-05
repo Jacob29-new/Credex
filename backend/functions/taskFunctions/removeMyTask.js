@@ -5,4 +5,21 @@ function removeMyTask(id) {
     prepped.run(id);
 }
 
-export default removeMyTask;
+function removeAllTasks() {
+    console.log("Removing all tasks from the database")
+    const prepped = db.prepare(`DELETE FROM tasks`);
+    prepped.run();
+}
+
+function dropTasksTable() {
+    try {
+        db.run("DROP TABLE IF EXISTS tasks");
+        console.log("Tasks table dropped successfully");
+    } catch (error) {
+        console.error("Failed to drop tasks table:", error);
+    }
+}
+
+
+
+export default removeMyTask

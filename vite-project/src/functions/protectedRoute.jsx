@@ -56,7 +56,7 @@ function ProtectedRoute({ children }) {
         return;
       }
       await checkAuthenticationStatus(); 
-    }, 1000);
+    }, 1000 * 60);
 
     return () => clearInterval(tokenExpiryTimer);
   }, [location.pathname, isAuthenticated, navigate]);

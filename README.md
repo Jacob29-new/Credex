@@ -2,7 +2,7 @@ Aplikace – výměna služeb za kredity
 
 Tato aplikace umožňuje lidem nabízet a vykonávat služby výměnou za kredity, nikoli peníze. Kredity získané za jednu službu lze využít na zaplacení jiné.
 
-Technologie
+Technologie 
 Frontend: JavaScript (spouští se pomocí npm run dev)
 Backend: Bun + SQLite (better-sqlite3, spouští se pomocí bun run server.js)
 

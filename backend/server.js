@@ -144,13 +144,14 @@ app.post("/accept-task", async (req, res) => {
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const userId = decoded.id;
+        const workerUsername = decoded.username;
 
         const { taskId } = req.body;
         if (!taskId) {
             return res.status(400).json({ error: 'Task ID required' });
         }
 
-        const info = await acceptTask(userId, taskId);
+        const info = await acceptTask(userId, taskId, workerUsername );
         return res.json(info);
     } catch (err) {
         console.error('Error in /accept-task:', err);

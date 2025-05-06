@@ -11,7 +11,7 @@ import getCurrentTasks from "../functions/getCurrentTasks.js"
 import getFindTasks from "../functions/getFindTasks.js"
 import getMyTodoTasks from "../functions/getMyTodoTasks.js"
 import removeMyTaskFunction from "../functions/removeMyTaskFunction.js"
-import { Clock, Award, User, Calendar, MapPin, Flame, Star, Briefcase, Check, Tag, Trash2 } from 'lucide-react';
+import { Clock, Award, User, Calendar, MapPin, Flame, Star, Briefcase, Check, Tag, Trash2, CheckCircle, AlertTriangle, Filter, ChevronDown, ChevronUp } from 'lucide-react';
 import autoGenerateTask from "../functions/autoGenerateTask.js";
 
 function UserTaskPage() {
@@ -20,14 +20,26 @@ function UserTaskPage() {
     const [myTasks, setMyTasks] = useState([]);
     const [findTasks, setFindTasks] = useState([]);
     const [myTodoTasks, setMyTodoTasks] = useState([]);
+    
 
     const [searchQuery, setSearchQuery] = useState("");
     const [categoryFilter, setCategoryFilter] = useState(""); 
+    const [activeTab, setActiveTab] = useState("waiting");
+    const [pendingFilter, setPendingFilter] = useState(false)
+    const [expandedDiv, setExpandedDiv] = useState(null);
     
     const filteredTasks = findTasks.filter(task =>
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
       (categoryFilter === "" || task.category.toLowerCase() === categoryFilter.toLowerCase())
     );
+
+    const toggleExpand = (id) => {
+        if (expandedDiv === id) {
+          setExpandedDiv(null);
+        } else {
+            setExpandedDiv(id);
+        }
+      };
 
     async function loadMyTasks() {
         const tasks = await getCurrentTasks();
@@ -38,12 +50,14 @@ function UserTaskPage() {
     async function loadFindTasks() {
         const tasks = await getFindTasks();
         setFindTasks(tasks)
-        console.log("These are find tasks:",tasks);
+        console.log("These are public tasks:",tasks);
     }
 
     async function handleAcceptTask(taskId) {
         console.log("Accept task button clicked, task id:", taskId);
         await acceptTask({ taskId });
+        loadFindTasks()
+        loadMyTasks()
     }
 
     async function loadMyTodoTasks() {
@@ -51,6 +65,8 @@ function UserTaskPage() {
         const tasks = await getMyTodoTasks()
         setMyTodoTasks(tasks)
         console.log("todo tasks:", tasks)
+        loadFindTasks()
+
     }
     
     useEffect(() => {
@@ -202,9 +218,10 @@ function UserTaskPage() {
                             <p>Post a new a task</p>
                             <img onClick={() => {setCurrentStep(1); navigate('/user/tasks/post')}} className="w-10 h-10 cursor-pointer hover:scale-110 rounded-full" src={addImage} alt="" />
                         </div>
+                        <p className="text-2xl font-bold">My to-do tasks</p>
                          {myTodoTasks.length > 0 ? (
+
                             <>
-                            <p className="text-2xl font-bold">My to-do tasks</p>
                             {myTodoTasks.map((task, index) => (
                                 <div 
                                 key={index} 
@@ -236,6 +253,9 @@ function UserTaskPage() {
                                         <Award size={14} className="mr-2" />
                                         <span>Offer: {task.credits_offered} {task.credits_offered === 1 ? "credex" : "credexes"}</span>
                                     </div>
+                                    <div className="w-full  h-8 flex justify-end">
+                                        <button className="mr-2 hover:bg-green-500 hover:border-black border-none w-30 bg-green-400 rounded-md">Mark as done</button>
+                                    </div>
                                     </div>
                                 </div>
                                 
@@ -253,9 +273,9 @@ function UserTaskPage() {
                         ) : (
                             <p>No tasks found.</p>
                         )} 
+                        <p className="text-2xl font-bold">My posted tasks</p>
                         {myTasks.length > 0 ? (
                             <>
-                            <p className="text-2xl font-bold">My posted tasks</p>
                             {myTasks.map((task, index) => (
                                 <div 
                                 key={index} 
@@ -302,7 +322,7 @@ function UserTaskPage() {
                             ))}
                             </>
                         ) : (
-                            <p>No tasks found.</p>
+                            <div>No tasks found</div>
                         )}
                         </>
                     )}
@@ -548,6 +568,131 @@ function UserTaskPage() {
                             )}
 
                         
+                        </>
+                    )}
+                    {location.pathname === "/user/tasks/pending" && (
+                        <>
+                        <p className="font-medium w-8/10 text-2xl mb-5">Pending Tasks</p>
+                        <div className="w-8/10 flex flex-row">
+                            <div className={`flex flex-col space-x-5 xl:flex-row md:flex-row lg:flex-row sm:flex-col`}>
+                                <button 
+                                    onClick={() => setActiveTab("waiting")}
+                                    className={`px-4 py-1 mt-5 text-lg rounded-md flex items-center space-x-2 ${activeTab === "waiting" ? "bg-amber-100 border border-amber-300 text-amber-800" : "border border-gray-200"}`}>
+                                    <Clock size={18}></Clock>
+                                    <p>Waiting</p>
+                                </button>
+                                <button 
+                                    onClick={() => setActiveTab("completed")}
+                                    className={`px-4 mt-5 py-1 text-lg rounded-md flex items-center space-x-2 ${activeTab === "completed" ? "bg-green-100 border border-green-300 text-green-800" : "border border-gray-200"}`}>
+                                    <CheckCircle size={18}></CheckCircle>
+                                    <p>Completed</p>
+                                </button>
+                                <button 
+                                    onClick={() => setActiveTab("disputed")}
+                                    className={`px-4 mt-5 py-1 text-lg rounded-md flex items-center space-x-2   ${activeTab === "disputed" ? "bg-red-100 border border-red-300 text-red-800" : "border border-gray-200"}`}>
+                                    <AlertTriangle size={18}></AlertTriangle>
+                                    <p>Disputed</p>
+                                </button>
+                            </div>
+                            <div className="space-x-2 px-8 mt-5 py-1 max-h-10 ml-auto flex flex-row border items-center justify-center rounded-lg border-gray-200"
+                                 onClick={() => setPendingFilter(!pendingFilter)}>
+                                <Filter size={18}></Filter>
+                                <p>Filters</p>
+                                {pendingFilter ? <ChevronDown size={16}/> :  <ChevronUp size={16}/>}
+                            </div>
+                        </div>
+                        {pendingFilter ? (
+                                <>
+                                <div className="flex flex-col w-8/10 p-5 space-y-5 border border-gray-300 rounded-xl mt-4">
+                                    <div className="flex flex-col">
+                                        <p className="font-medium">Priority</p>
+                                        <select name="" id="" className="p-2 mt-1 border border-gray-500 rounded-md">
+                                            <option value="">All priorities</option>
+                                            <option value="high">High</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="low">Low</option>
+                                        </select>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <p className="font-medium">Category</p>
+                                        <select name="" id="" className="p-2 mt-1 border border-gray-500 rounded-md">
+                                            <option value="">All categories</option>
+                                            <option value="high">High</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="low">Low</option>
+                                        </select>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <p className="font-medium">Sort by</p>
+                                        <select name="" id="" className="p-2 mt-1 border border-gray-500 rounded-md">
+                                            <option value="">Deadline (nearest)</option>
+                                            <option value="high">High</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="low">Low</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </>
+                            ) : (<></>)}
+                        {activeTab === "waiting" ? (<>
+                            <div className="flex flex-col w-8/10 bg-amber-50 mt-5 p-5 border border-amber-300 text-amber-800 rounded-t-xl">
+                                <div className="flex flex-row text-lg space-x-2 items-center">
+                                    <Clock size={16}></Clock>
+                                    <p>Accepted and waiting to be completed</p>
+                                </div>
+                                <p className="font-medium">Tasks you've posted that have been accepted and are awaiting completion</p>
+                            </div>
+                            {myTasks.filter(task => task.status === "accepted").map((task) => (
+                                <>
+                                    <div className="flex flex-row w-8/10 items-center space-x-4 p-3 border border-gray-300">
+                                        <div className=" w-10 h-10 border border-gray-300 rounded-2xl flex items-center justify-center">J</div>
+                                        <div className="flex flex-col justify-center ">
+                                            <p className="font-medium text-lg">{task.title}</p>
+                                            <p className="text-md text-gray-500">Worker: {task.worker_username} ~ Due: {task.deadline}</p>
+                                        </div>
+                                        <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
+                                            <div className="font-medium text-blue-800 bg-blue-100 px-4 py-1 rounded-2xl">In progresss</div>
+                                            <button className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Mark as completed</button>
+                                            <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
+                                                {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}
+                                            </button>
+                                        </div>      
+                                    </div>
+                                    {expandedDiv === task.id && (
+                                            <>
+                                                <div className=" w-8/10 p-4 grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-50">
+                                                    <p><span className="font-medium">Description: </span>{task.description}</p>
+                                                    <p><span className="font-medium">Deadline: </span> {task.deadline}</p>
+                                                    <p><span className="font-medium">Category: </span>{task.category}</p>
+                                                    <p><span className="font-medium">Priority: </span> {task.taskUrgency}</p>
+                                                    <p><span className="font-medium">Task status: </span> {task.status}</p>
+                                                    <p><span className="font-medium">Credits: </span> {task.credits_offered}</p>
+                                                </div>
+                                            </>
+                                        )}
+
+                                </>
+                            ))}
+                        </>) : (<></>)}
+                        {activeTab === "completed" ? (<>
+                            <div className="flex flex-col w-8/10 bg-green-50 mt-5 p-5 border border-green-300 text-green-800 rounded-t-xl">
+                                <div className="flex flex-row text-lg space-x-2 items-center">
+                                    <CheckCircle size={16}></CheckCircle>
+                                    <p>Completed and waiting for confirmation</p>
+                                </div>
+                                <p className="font-medium">Tasks waiting for confirmation - both tasks you've completed and tasks others have completed for you</p>
+                            </div>
+                        </>) : (<></>)}
+                        {activeTab === "disputed" ? (<>
+                            <div className="flex flex-col w-8/10 bg-red-50 mt-5 p-5 border border-red-300 text-red-800 rounded-t-xl">
+                                <div className="flex flex-row text-lg space-x-2 items-center">
+                                    <AlertTriangle size={16}></AlertTriangle>
+                                    <p>Disputed Tasks</p>
+                                </div>
+                                <p className="font-medium">Tasks where completion is disputed by the owner</p>
+                            </div>
+                        </>) : (<></>)}
+                       
                         </>
                     )}
                    

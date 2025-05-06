@@ -20,6 +20,7 @@ try {
             creator_id INTEGER NOT NULL,
             creator_username TEXT NOT NULL,
             worker_id INTEGER,
+            worker_username TEXT,
             status TEXT DEFAULT 'posted',
             created_at TEXT DEFAULT CURRENT_TIMESTAMP,
             updated_at TEXT DEFAULT CURRENT_TIMESTAMP
@@ -40,17 +41,18 @@ function addTask(info, userId, username) {
         const query = `
             INSERT INTO tasks (
                 title, description, category, taskLocation, taskTime, deadline, credits_offered, duration, 
-                workerPreferences, workerProficiency, workerRating, taskUrgency, creator_id, creator_username
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                workerPreferences, workerProficiency, workerRating, taskUrgency, creator_id, creator_username, worker_username
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const params = [title, description, category, taskLocation, taskTime, deadline, price, duration, workerPreferences, workerProficiency, workerRating, taskUrgency, userId, username];
+        const params = [title, description, category, taskLocation,
+                         taskTime, deadline, price, duration, workerPreferences, workerProficiency, workerRating, taskUrgency, userId, username, null];
         db.run(query, params);
         
         console.log("Task successfully added to the database");
         return true;
     } catch (error) {
-        console.error("Failed to add task to the database", error);
-        throw new Error('Failed to add task to the database');
+        console.error("Failed to add task to the database:", error.message);
+        return { error: error.message };
     }
 }
 

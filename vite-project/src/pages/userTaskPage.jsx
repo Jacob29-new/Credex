@@ -221,11 +221,11 @@ function UserTaskPage() {
                 <div className="border-t-2 border-gray-300 w-8/10 mt-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-8 p-3">
                     {location.pathname === '/user/tasks/my' && (
                         <>
-                        <div className="border-2 border-dashed rounded-md p-2 w-full h-40 flex items-center justify-center flex-col">
+                        <div className="border-2 border-dashed shadow-xl rounded-md p-2 w-full h-40 flex items-center justify-center flex-col">
                             <p>Post a new a task</p>
                             <img onClick={() => {setCurrentStep(1); navigate('/user/tasks/post')}} className="w-10 h-10 cursor-pointer hover:scale-110 rounded-full" src={addImage} alt="" />
                         </div>
-                        <p className="text-2xl font-bold">My to-do tasks</p>
+                        <p className="text-2xl font-bold border-b border-gray-300 py-2">Your Assignments</p>
                          {myTodoTasks.filter((task) => task.status === "accepted").length > 0 ? (
 
                             <>
@@ -282,9 +282,12 @@ function UserTaskPage() {
                             ))}
                             </>
                         ) : (
-                            <p>No tasks found.</p>
+                            <div className="w-full py-10 text-gray-500 font-medium text-md bg-gray-50 rounded-lg border border-gray-300 flex items-center justify-center p-5">
+
+                                <p>You currently have no assignments</p>
+                            </div>
                         )} 
-                        <p className="text-2xl font-bold">My posted tasks</p>
+                        <p className="text-2xl font-bold border-b border-gray-300 py-2">Created tasks</p>
                         {myTasks.filter((task) => task.status === 'posted').length > 0 ? (
                             <>
                             {myTasks.filter((task) => task.status === 'posted').map((task, index) => (
@@ -333,7 +336,10 @@ function UserTaskPage() {
                             ))}
                             </>
                         ) : (
-                            <div>No tasks found</div>
+                            <div className="w-full py-10 sm:mb-0 text-gray-500 font-medium text-md bg-gray-50 rounded-lg border border-gray-300 flex items-center justify-center p-5">
+
+                                <p>You haven't posted any tasks</p>
+                            </div>
                         )}
                         </>
                     )}
@@ -367,67 +373,75 @@ function UserTaskPage() {
                                     </select>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-10">
-                                {filteredTasks.map((task) => (
-                                    <div id={task.id} className="border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white overflow-hidden w-full">
-                                        <div className="p-4 w-full">
-                                        <div className="mb-3">
-                                            <h3 className="text-lg font-semibold text-gray-800">{task.title}</h3>
-                                            <span className="inline-block mt-1 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                                            {task.category}
-                                            </span>
+                                {filteredTasks.length > 0 ? (
+                                    <>
+                                    {filteredTasks.map((task) => (
+                                        <div id={task.id} className="border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white overflow-hidden w-full">
+                                            <div className="p-4 w-full">
+                                            <div className="mb-3">
+                                                <h3 className="text-lg font-semibold text-gray-800">{task.title}</h3>
+                                                <span className="inline-block mt-1 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                                                {task.category}
+                                                </span>
+                                            </div>
+    
+                                            <p className="text-gray-600 text-sm mb-4 line-clamp-3">{task.description}</p>
+    
+                                            <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-500">
+                                                <div className="flex items-center">
+                                                <Clock className="h-4 w-4 mr-1" />
+                                                Duration: {task.duration}
+                                                </div>
+                                                <div className="flex items-center">
+                                                <Calendar className="h-4 w-4 mr-1" />
+                                                Deadline: {task.deadline}
+                                                </div>
+                                                <div className="flex items-center">
+                                                <MapPin className="h-4 w-4 mr-1" />
+                                                Location: {task.taskLocation}
+                                                </div>
+                                                <div className="flex items-center">
+                                                <Flame className="h-4 w-4 mr-1" />
+                                                Urgency: {task.taskUrgency}
+                                                </div>
+                                                <div className="flex items-center">
+                                                <Star className="h-4 w-4 mr-1" />
+                                                Required Rating: {task.workerRating}
+                                                </div>
+                                                <div className="flex items-center">
+                                                <Briefcase className="h-4 w-4 mr-1" />
+                                                Status: {task.status}
+                                                </div>
+                                            </div>
+    
+                                            <div className="flex justify-between text-gray-700 text-sm font-medium mb-4">
+                                                <div className="flex items-center gap-2">
+                                                <Award className="h-4 w-4" />
+                                                {task.credits_offered} credits
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                <User className="h-4 w-4" />
+                                                {task.creator_username}
+                                                </div>
+                                            </div>
+    
+                                            <div className="flex justify-end">
+                                                <button
+                                                onClick={() => handleAcceptTask(task.id)} 
+                                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium transition-transform hover:scale-105 shadow-sm hover:shadow-md flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                                <Check className="w-4 h-4" />
+                                                Accept Task
+                                                </button>
+                                            </div>
+                                            </div>
                                         </div>
-
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">{task.description}</p>
-
-                                        <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-500">
-                                            <div className="flex items-center">
-                                            <Clock className="h-4 w-4 mr-1" />
-                                            Duration: {task.duration}
-                                            </div>
-                                            <div className="flex items-center">
-                                            <Calendar className="h-4 w-4 mr-1" />
-                                            Deadline: {task.deadline}
-                                            </div>
-                                            <div className="flex items-center">
-                                            <MapPin className="h-4 w-4 mr-1" />
-                                            Location: {task.taskLocation}
-                                            </div>
-                                            <div className="flex items-center">
-                                            <Flame className="h-4 w-4 mr-1" />
-                                            Urgency: {task.taskUrgency}
-                                            </div>
-                                            <div className="flex items-center">
-                                            <Star className="h-4 w-4 mr-1" />
-                                            Required Rating: {task.workerRating}
-                                            </div>
-                                            <div className="flex items-center">
-                                            <Briefcase className="h-4 w-4 mr-1" />
-                                            Status: {task.status}
-                                            </div>
-                                        </div>
-
-                                        <div className="flex justify-between text-gray-700 text-sm font-medium mb-4">
-                                            <div className="flex items-center gap-2">
-                                            <Award className="h-4 w-4" />
-                                            {task.credits_offered} credits
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                            <User className="h-4 w-4" />
-                                            {task.creator_username}
-                                            </div>
-                                        </div>
-
-                                        <div className="flex justify-end">
-                                            <button
-                                            onClick={() => handleAcceptTask(task.id)} 
-                                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium transition-transform hover:scale-105 shadow-sm hover:shadow-md flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                                            <Check className="w-4 h-4" />
-                                            Accept Task
-                                            </button>
-                                        </div>
-                                        </div>
+                                        ))} </>
+                                ) : (
+                                    <div className="w-[200%] py-5 sm:mb-0 text-gray-500 font-medium text-md bg-gray-50 rounded-lg border border-gray-300 flex items-center justify-center p-5">
+                                        <p>No tasks found</p>
                                     </div>
-                                    ))}
+                                )}
+                                
 
                                 </div>
 
@@ -650,6 +664,11 @@ function UserTaskPage() {
                                 </div>
                                 <p className="font-medium">Tasks you've posted that have been accepted and are awaiting completion</p>
                             </div>
+                            {myTasks.filter(task => task.status === "accepted").length === 0 ? (
+                               <div className="w-8/10 py-3 sm:mb-0 text-gray-500 font-medium text-md rounded-b-lg border border-gray-300 flex items-center justify-center p-5">
+                               <p>No tasks found</p>
+                           </div>
+                            ) : (<></>)}
                             {myTasks.filter(task => task.status === "accepted").map((task) => (
                                 <>
                                     <div className="flex flex-row w-8/10 items-center space-x-4 p-3 border border-gray-300">
@@ -690,6 +709,11 @@ function UserTaskPage() {
                                 </div>
                                 <p className="font-medium">Tasks waiting for confirmation - both tasks you've completed and tasks others have completed for you</p>
                             </div>
+                            {myTasks.filter(task => task.status === "completed-1").length === 0 && myTodoTasks.filter(task => task.status === "completed-1").length === 0 ? (
+                               <div className="w-8/10 py-3 sm:mb-0 text-gray-500 font-medium text-md rounded-b-lg border border-gray-300 flex items-center justify-center p-5">
+                               <p>No tasks found</p>
+                           </div>
+                            ) : (<></>)}
                             {myTasks.filter(task => task.status === "completed-1").map((task) => (
                                 <>
                                     <div className="flex flex-row w-8/10 items-center space-x-4 p-3 border border-gray-300">
@@ -721,7 +745,9 @@ function UserTaskPage() {
                                         )}
 
                                 </>
-                            ))}
+                            )) }
+
+                            
                             {myTodoTasks.filter(task => task.status === "completed-1").map((task) => (
                                 <>
                                     <div className="flex flex-row w-8/10 items-center space-x-4 p-3 border border-gray-300">
@@ -762,6 +788,11 @@ function UserTaskPage() {
                                 </div>
                                 <p className="font-medium">Tasks where completion is disputed by the owner</p>
                             </div>
+                            {myTasks.filter(task => task.status === "disputed").length === 0 ? (
+                               <div className="w-8/10 py-3 sm:mb-0 text-gray-500 font-medium text-md  rounded-b-lg border border-gray-300 flex items-center justify-center p-5">
+                               <p>No tasks found</p>
+                           </div>
+                            ) : (<></>)}
                             {myTasks.filter(task => task.status === "disputed").map((task) => (
                                 <>
                                     <div className="flex flex-row w-8/10 items-center space-x-4 p-3 border border-gray-300">
@@ -829,7 +860,13 @@ function UserTaskPage() {
                     )}
                     {location.pathname === "/user/tasks/completed" && (
                         <>
-                        <div className="text-2xl font-medium w-8/10">Completed tasks</div>
+                        <div className="text-2xl font-medium w-8/10 border-b border-gray-300 p-3 mb-5">Completed tasks</div>
+
+                        {myTasks.filter(task => task.status === "completed-2").length === 0 && myTodoTasks.filter(task => task.status === "completed-2").length === 0 ? (
+                               <div className="w-8/10 py-10 sm:mb-0 text-gray-500 font-medium text-md bg-gray-50 rounded-lg border border-gray-300 flex items-center justify-center p-5">
+                               <p>No tasks found</p>
+                           </div>
+                            ) : (<></>)}
                             {myTodoTasks.filter(task => task.status === "completed-2").map((task) => (
                                 <>
                                 <div className="flex flex-row w-8/10 items-center space-x-4 p-3 border border-gray-300">

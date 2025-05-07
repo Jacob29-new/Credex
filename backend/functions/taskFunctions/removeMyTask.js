@@ -11,6 +11,7 @@ function removeAllTasks() {
     prepped.run();
 }
 
+
 function dropTasksTable() {
     try {
         db.run("DROP TABLE IF EXISTS tasks");
@@ -19,5 +20,6 @@ function dropTasksTable() {
         console.error("Failed to drop tasks table:", error);
     }
 }
+
 
 export default removeMyTask

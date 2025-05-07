@@ -66,7 +66,7 @@ function UserHomePage() {
                         <img className="w-5 h-5 ml-2" src={tasksImage} alt="Tasks" />
                     </div>
 
-                    {myAcceptedTasks.filter(task => task.status === "accepted" || task.status === "completed-1").length === 0 ? (
+                    {myAcceptedTasks.filter(task => task.status === "accepted").length === 0 && myAcceptedTasks.filter(task => task.status === "pending").length === 0 ? (
                         <p className="text-gray-400 text-sm">You currently have no tasks</p>
                     ) : (
                         <ul className="w-full px-2 space-y-1">

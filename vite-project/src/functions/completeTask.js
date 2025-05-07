@@ -1,4 +1,5 @@
 async function completeTask(number, taskId) {
+    console.log("completeTask in frontend called with:", number, taskId);
     try {
         const response = await fetch("http://localhost:3000/complete-task", {
             method: "POST",

@@ -6,6 +6,7 @@ function completeTask(number, taskId) {
     const id = parseInt(taskId);
 
     if(number === 1) {
+        console.log("Hello. Updating task to completed-1 with ID:", id);
         const prepped = db.prepare(`UPDATE tasks SET status = "completed-1" WHERE id = ?`);
         const result = prepped.run(id); 
         console.log("Update result (completed-1):", result);
@@ -13,6 +14,7 @@ function completeTask(number, taskId) {
     } 
 
     if(number === 2) {
+        console.log("Hello. Updating task to completed-2 with ID:", id);
         const prepped = db.prepare(`UPDATE tasks SET status = "completed-2" WHERE id = ?`);
         const result = prepped.run(id);
         console.log("Update result (completed-2):", result);
@@ -20,6 +22,7 @@ function completeTask(number, taskId) {
     }
 
     if(number === 3) {
+        console.log("Hello. Updating task to disputed with ID:", id);
         const prepped = db.prepare(`UPDATE tasks SET status = "disputed" WHERE id = ?`);
         const result = prepped.run(id);
         console.log("Update result (disputed):", result);

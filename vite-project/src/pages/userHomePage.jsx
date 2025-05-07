@@ -8,6 +8,7 @@ import tasksImage from "../assets/tasks.svg";
 import creditsImage from "../assets/credits.svg";
 import addtaskImage from  "../assets/addtask.svg";
 import getCurrentTasks from "../functions/getCurrentTasks.js";
+import getMyTodoTasks from "../functions/getMyTodoTasks.js";
 import { useNavigate } from "react-router-dom";
 
 
@@ -18,11 +19,16 @@ function UserHomePage() {
     //for windows squares
     const [tasks, setTasks] = useState([]);
     const [credits, setCredits] = useState(0);
+    const [myAcceptedTasks, setMyAcceptedTasks] = useState([]);
 
     async function loadMyTasks() {
         const tasks = await getCurrentTasks();
         setTasks(tasks)
         console.log(tasks);
+        const myAcceptedTasks = await getMyTodoTasks(tasks);
+        setMyAcceptedTasks(myAcceptedTasks);
+        console.log(myAcceptedTasks);
+
     }
     
     useEffect(() => {
@@ -60,11 +66,11 @@ function UserHomePage() {
                         <img className="w-5 h-5 ml-2" src={tasksImage} alt="Tasks" />
                     </div>
 
-                    {tasks.length === 0 ? (
+                    {myAcceptedTasks.filter(task => task.status === "accepted" || task.status === "completed-1").length === 0 ? (
                         <p className="text-gray-400 text-sm">You currently have no tasks</p>
                     ) : (
                         <ul className="w-full px-2 space-y-1">
-                        {tasks.map((task, i) => (
+                        {myAcceptedTasks.filter(task => task.status === "accepted").map((task, i) => (
                             <li key={i}
                             className="text-white bg-[hsl(30,3.33%,15%)] rounded px-2 py-1 text-sm shadow-sm">
                             • <span className="font-semibold">{task.title}</span> — {task.category}

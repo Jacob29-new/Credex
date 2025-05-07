@@ -1,6 +1,6 @@
 import { db } from '../registerFunctions/databaseHandler.js';
 
-function completeTask(number, taskId) {
+function completeTask(number, taskId, credits_offered, worker_id, creator_id) {
     console.log("completeTask called with:", number, taskId);
     number = parseInt(number);
     const id = parseInt(taskId);
@@ -18,7 +18,18 @@ function completeTask(number, taskId) {
         const prepped = db.prepare(`UPDATE tasks SET status = "completed-2" WHERE id = ?`);
         const result = prepped.run(id);
         console.log("Update result (completed-2):", result);
-        return result;
+
+        /// Add the credits to the workers account
+        const prepped2 = db.prepare(`UPDATE users SET credits = credits + ? WHERE id = ?`);
+        const result2 = prepped2.run(credits_offered, worker_id);
+        console.log("Update result (credits):", result2);
+
+        /// Remove the credits from the creator's account
+        const prepped3 = db.prepare(`UPDATE users SET credits = credits - ? WHERE id = ?`);
+        const result3 = prepped3.run(credits_offered, creator_id);
+        console.log("Update result (credits):", result3);
+        return result3;
+
     }
 
     if(number === 3) {

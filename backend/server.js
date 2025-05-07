@@ -11,6 +11,7 @@ import removeMyTask from "./functions/taskFunctions/removeMyTask.js";
 import acceptTask from './functions/taskFunctions/acceptTask.js';
 import getMyTodoTasks from './functions/taskFunctions/getMyTodoTasks.js';
 import completeTask from './functions/taskFunctions/completeTask.js';
+import { db } from './functions/registerFunctions/databaseHandler.js';
 
 const app = express();
 
@@ -168,10 +169,10 @@ app.post("/complete-task", async (req, res) => {
             return res.status(401).json({ error: 'Authentication required' });
         }
 
-        const { number, taskId } = req.body;
+        const { number, taskId, credits_offered, worker_id, creator_id } = req.body;
         console.log("Completing task with number:", number, "and taskId:", taskId);
 
-        const info = await completeTask(number, taskId);
+        const info = await completeTask(number, taskId, credits_offered, worker_id, creator_id);
         console.log("complete-task info:", info);
         return res.json(info);
     } catch (err) {
@@ -204,6 +205,41 @@ app.post("/removetask", async (req, res) => {
         res.json({ error: "Failed to remove task" });
     }   
 })
+
+app.get("/user-info", async (req, res) => {
+    const token = req.cookies['JWT'];
+    console.log("Token received:", token ? "present" : "missing");
+    
+    if (!token) {
+        return res.status(401).json({ message: "No token found" });
+    }
+
+    try {
+        if (!process.env.JWT_SECRET_KEY) {
+            console.log("Setting default JWT secret");
+            process.env.JWT_SECRET_KEY = "temporary-dev-key";
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        console.log("Token decoded:", decoded);
+        
+        const userId = decoded.id;
+        console.log("Looking up user:", userId);
+
+        const row = db.prepare("SELECT id, firstName, lastName, username, email, credits, bio, location, profilePic, workingHours FROM users WHERE id = ?").get(userId);
+        
+        if (!row) {
+            console.log("User not found in database");
+            return res.status(404).json({ message: "User not found" });
+        }
+        
+        console.log("User info found:", row);
+        return res.json(row);
+    } catch (err) {
+        console.error("Token verification error:", err);
+        return res.status(401).json({ message: "Failed to verify token" });
+    }
+});
 
 
 

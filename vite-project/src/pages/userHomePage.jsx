@@ -10,6 +10,7 @@ import addtaskImage from  "../assets/addtask.svg";
 import getCurrentTasks from "../functions/getCurrentTasks.js";
 import getMyTodoTasks from "../functions/getMyTodoTasks.js";
 import { useNavigate } from "react-router-dom";
+import getUserInfo from "../functions/getUserInfo.js";
 
 
 function UserHomePage() {
@@ -37,10 +38,12 @@ function UserHomePage() {
 
     useEffect(() => {
         const fetchUserInfo = async () => {
-            const userFirstName = await getInfo("firstName"); 
-            setFirstName(userFirstName); 
+            const user = await getUserInfo();
+            console.log(user);
+            setFirstName(user.firstName);
+            setCredits(user.credits);
         };
-        fetchUserInfo(); 
+        fetchUserInfo();
     }, []);
 
     return (

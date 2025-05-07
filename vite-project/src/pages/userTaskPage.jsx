@@ -679,7 +679,7 @@ function UserTaskPage() {
                                         </div>
                                         <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
                                             <div className="font-medium text-blue-800 bg-blue-100 px-4 py-1 rounded-2xl">In progresss</div>
-                                            <button onClick={ () => {completeTask(2, task.id); loadEverything()}} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Mark as completed</button>
+                                            <button onClick={ () => {completeTask(2, task.id, task.credits_offered, task.worker_id, task.creator_id); loadEverything()}} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Mark as completed</button>
                                             <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
                                                 {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}
                                             </button>
@@ -725,7 +725,7 @@ function UserTaskPage() {
                                         <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
                                             <div className="font-medium text-blue-800 bg-blue-100 px-4 py-1 rounded-2xl">marked as completed by worker</div>
                                             <button onClick={ () => {console.log("clicking dispute"); completeTask(3, task.id); loadEverything()}} className="text-white px-2 py-1 bg-red-600 rounded-md hover:bg-red-700">Dispute</button>
-                                            <button onClick={ () => {completeTask(2, task.id); loadEverything()}} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Confirm completion</button>
+                                            <button onClick={ () => {completeTask(2, task.id, task.credits_offered, task.worker_id, task.creator_id); loadEverything()}} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Confirm completion</button>
                                             <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
                                                 {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}
                                             </button>
@@ -803,7 +803,7 @@ function UserTaskPage() {
                                         </div>
                                         <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
                                             <div className="font-medium text-blue-800 bg-blue-100 px-4 py-1 rounded-2xl">Awaiting verdict of dispute made by you </div>
-                                            <button onClick={ () => {console.log("clicking dispute"); completeTask(2, task.id); loadEverything()}} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Cancel and confirm completion</button>
+                                            <button onClick={ () => {console.log("clicking dispute"); completeTask(2, task.id, task.credits_offered, task.worker_id, task.creator_id); loadEverything()}} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Cancel and confirm completion</button>
                                             <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
                                                 {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}
                                             </button>
@@ -906,6 +906,10 @@ function UserTaskPage() {
                                         </div>
                                         <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
                                             <div className="font-medium text-green-800 bg-green-100 px-4 py-1 rounded-2xl">Assigned by you</div>
+                                            <div className="font-medium text-green-800 bg-green-100 px-4 py-1  flex flex-row rounded-2xl items-center">
+                                                <p className="mr-2">Completed</p>
+                                                <Check size={18}></Check>
+                                            </div>
                                             <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
                                                 {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}
                                             </button>

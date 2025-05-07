@@ -12,6 +12,12 @@ try {
             username TEXT UNIQUE NOT NULL,
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
+            credits INTEGER DEFAULT 0,
+            ratings TEXT DEFAULT "[]",
+            bio TEXT,
+            location TEXTL,
+            profilePic TEXT,
+            workingHours TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     `);

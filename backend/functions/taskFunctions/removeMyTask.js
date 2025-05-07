@@ -20,6 +20,28 @@ function clearUsersTable() {
     }
 }
 
+function showUsersTable() {
+    try {
+        const users = db.prepare("SELECT * FROM users").all();
+        console.log(users);
+        return users;
+    } catch (error) {
+        console.error("Failed to show users table:", error);
+        return [];
+    }
+}
+
+showUsersTable();
+
+function dropUsersTable() {
+    try {
+        db.run("DROP TABLE IF EXISTS users");
+        console.log("Users table dropped successfully");
+    } catch (error) {
+        console.error("Failed to drop users table:", error);
+    }
+}
+
 function dropTasksTable() {
     try {
         db.run("DROP TABLE IF EXISTS tasks");

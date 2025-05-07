@@ -13,6 +13,7 @@ import getMyTodoTasks from "../functions/getMyTodoTasks.js"
 import removeMyTaskFunction from "../functions/removeMyTaskFunction.js"
 import { Clock, Award, User, Calendar, MapPin, Flame, Star, Briefcase, Check, Tag, Trash2, CheckCircle, AlertTriangle, Filter, ChevronDown, ChevronUp } from 'lucide-react';
 import autoGenerateTask from "../functions/autoGenerateTask.js";
+import completeTask from "../functions/completeTask.js"
 
 function UserTaskPage() {
 
@@ -579,7 +580,7 @@ function UserTaskPage() {
                                     onClick={() => setActiveTab("waiting")}
                                     className={`px-4 py-1 mt-5 text-lg rounded-md flex items-center space-x-2 ${activeTab === "waiting" ? "bg-amber-100 border border-amber-300 text-amber-800" : "border border-gray-200"}`}>
                                     <Clock size={18}></Clock>
-                                    <p>Waiting</p>
+                                    <p>Waiting ({myTasks.filter(task => task.status === "accepted").length})</p>
                                 </button>
                                 <button 
                                     onClick={() => setActiveTab("completed")}
@@ -652,7 +653,7 @@ function UserTaskPage() {
                                         </div>
                                         <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
                                             <div className="font-medium text-blue-800 bg-blue-100 px-4 py-1 rounded-2xl">In progresss</div>
-                                            <button className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Mark as completed</button>
+                                            <button onClick={ () => completeTask(2)} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Mark as completed</button>
                                             <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
                                                 {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}
                                             </button>

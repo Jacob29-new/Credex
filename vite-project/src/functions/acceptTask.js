@@ -7,7 +7,7 @@ async function acceptTask(info) {
                 'Content-Type': 'application/json'
             },
             credentials: 'include',
-            body: JSON.stringify(info)  // expects an object such as { taskId: ... }
+            body: JSON.stringify(info)  
         });
         
         const result = await response.json();

@@ -437,7 +437,7 @@ function UserTaskPage() {
                                         </div>
                                         ))} </>
                                 ) : (
-                                    <div className="w-[200%] py-5 sm:mb-0 text-gray-500 font-medium text-md bg-gray-50 rounded-lg border border-gray-300 flex items-center justify-center p-5">
+                                    <div className="w-full py-5 sm:mb-0 text-gray-500 font-medium text-md bg-gray-50 rounded-lg border border-gray-300 flex items-center justify-center p-5">
                                         <p>No tasks found</p>
                                     </div>
                                 )}
@@ -607,7 +607,7 @@ function UserTaskPage() {
                                     onClick={() => setActiveTab("completed")}
                                     className={`px-4 mt-5 py-1 text-lg rounded-md flex items-center space-x-2 ${activeTab === "completed" ? "bg-green-100 border border-green-300 text-green-800" : "border border-gray-200"}`}>
                                     <CheckCircle size={18}></CheckCircle>
-                                    <p>Completed ({myTasks.filter(task => task.status === "completed-1").length})</p>
+                                    <p>Completed ({myTasks.filter(task => task.status === "completed-1").length +myTodoTasks.filter(task => task.status === "completed-1").length})</p>
                                 </button>
                                 <button 
                                     onClick={() => setActiveTab("disputed")}
@@ -788,7 +788,7 @@ function UserTaskPage() {
                                 </div>
                                 <p className="font-medium">Tasks where completion is disputed by the owner</p>
                             </div>
-                            {myTasks.filter(task => task.status === "disputed").length === 0 ? (
+                            {myTasks.filter(task => task.status === "disputed").length === 0 && myTodoTasks.filter(task => task.status === "disputed").length === 0 ? (
                                <div className="w-8/10 py-3 sm:mb-0 text-gray-500 font-medium text-md  rounded-b-lg border border-gray-300 flex items-center justify-center p-5">
                                <p>No tasks found</p>
                            </div>

@@ -11,6 +11,14 @@ function removeAllTasks() {
     prepped.run();
 }
 
+function clearUsersTable() {
+    try {
+        db.prepare("DELETE FROM users").run();
+        console.log("All users have been removed from the users table.");
+    } catch (error) {
+        console.error("Failed to clear users table:", error);
+    }
+}
 
 function dropTasksTable() {
     try {
@@ -20,6 +28,7 @@ function dropTasksTable() {
         console.error("Failed to drop tasks table:", error);
     }
 }
+
 
 
 export default removeMyTask

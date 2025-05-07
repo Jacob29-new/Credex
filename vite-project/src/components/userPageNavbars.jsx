@@ -96,7 +96,7 @@ function BigScreenNavbar() {
 function SmallScreenNavbar() {
     const navigate = useNavigate();
     return (
-        <div className="flex xl:hidden lg:hidden md:hidden w-full fixed bottom-0 bg-[hsl(30,3.33%,11.76%)] h-13 items-center justify-center">
+        <div className="flex xl:hidden lg:hidden md:hidden w-full fixed top-0 bg-[hsl(30,3.33%,11.76%)] h-13 items-center justify-center">
             <div onClick={() => {navigate("/user/home") ;}} className={`flex items-center justify-center h-10 w-10 hover:cursor-pointer hover:bg-black rounded-full mr-5 ${window.location.pathname === "/user/home" ? "bg-gray-700 hover:bg-gray-700" : ""}`}>
                 <img src={home} className="h-7 w-7 " />
             </div>
@@ -110,7 +110,7 @@ function SmallScreenNavbar() {
                 <img src={chat} className="h-7 w-7  " />
             </div>
             <div onClick={() => {navigate("/user/notifications") ;}} className={`flex relative items-center justify-center h-10 w-10 hover:cursor-pointer hover:bg-black rounded-full mr-5 ${window.location.pathname === "/user/notifications" ? "bg-gray-700 hover:bg-gray-700" : ""}`}>
-                <img src={notifications} className="h-7 w-7  " />
+                <img src={notifications} className="h-7 w-7  " /> */
                 {/* <div className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">1</div> */}
             </div>
             <div onClick={() => {navigate("/user/settings") ;}} className={`flex items-center justify-center h-10 w-10 hover:cursor-pointer hover:bg-black rounded-full mr-5 ${window.location.pathname === "/user/settings" ? "bg-gray-700 hover:bg-gray-700" : ""}`}>

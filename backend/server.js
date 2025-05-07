@@ -10,6 +10,7 @@ import getFindTasks from "./functions/taskFunctions/getFindTasks.js";
 import removeMyTask from "./functions/taskFunctions/removeMyTask.js";
 import acceptTask from './functions/taskFunctions/acceptTask.js';
 import getMyTodoTasks from './functions/taskFunctions/getMyTodoTasks.js';
+import completeTask from './functions/taskFunctions/completeTask.js';
 
 const app = express();
 
@@ -155,6 +156,26 @@ app.post("/accept-task", async (req, res) => {
         return res.json(info);
     } catch (err) {
         console.error('Error in /accept-task:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.post("/complete-task", async (req, res) => {
+    try {
+        console.log("Request body for complete-task:", req.body);
+        const token = req.cookies['JWT'];
+        if (!token) {
+            return res.status(401).json({ error: 'Authentication required' });
+        }
+
+        const { number, taskId } = req.body;
+        console.log("Completing task with number:", number, "and taskId:", taskId);
+
+        const info = await completeTask(number, taskId);
+        console.log("complete-task info:", info);
+        return res.json(info);
+    } catch (err) {
+        console.error('Error in /complete-task:', err);
         res.status(500).json({ error: 'Server error' });
     }
 });

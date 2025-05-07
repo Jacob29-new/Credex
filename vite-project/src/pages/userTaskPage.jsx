@@ -69,6 +69,12 @@ function UserTaskPage() {
         loadFindTasks()
 
     }
+
+    function loadEverything() {
+        loadMyTasks()
+        loadFindTasks()
+        loadMyTodoTasks()
+    }
     
     useEffect(() => {
         loadMyTasks()
@@ -220,10 +226,10 @@ function UserTaskPage() {
                             <img onClick={() => {setCurrentStep(1); navigate('/user/tasks/post')}} className="w-10 h-10 cursor-pointer hover:scale-110 rounded-full" src={addImage} alt="" />
                         </div>
                         <p className="text-2xl font-bold">My to-do tasks</p>
-                         {myTodoTasks.length > 0 ? (
+                         {myTodoTasks.filter((task) => task.status === "accepted").length > 0 ? (
 
                             <>
-                            {myTodoTasks.map((task, index) => (
+                            {myTodoTasks.filter((task) => task.status === "accepted").map((task, index) => (
                                 <div 
                                 key={index} 
                                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-200"
@@ -254,8 +260,12 @@ function UserTaskPage() {
                                         <Award size={14} className="mr-2" />
                                         <span>Offer: {task.credits_offered} {task.credits_offered === 1 ? "credex" : "credexes"}</span>
                                     </div>
+                                    <div className="flex items-center text-gray-500 text-xs">
+                                        <Award size={14} className="mr-2" />
+                                        <span>Posted by: {task.worker_username} </span>
+                                    </div>
                                     <div className="w-full  h-8 flex justify-end">
-                                        <button className="mr-2 hover:bg-green-500 hover:border-black border-none w-30 bg-green-400 rounded-md">Mark as done</button>
+                                        <button onClick={() => { completeTask(1, task.id); loadEverything() }} className="mr-2 hover:bg-green-500 hover:border-black border-none w-30 bg-green-400 rounded-md">Mark as done</button>
                                     </div>
                                     </div>
                                 </div>
@@ -275,9 +285,9 @@ function UserTaskPage() {
                             <p>No tasks found.</p>
                         )} 
                         <p className="text-2xl font-bold">My posted tasks</p>
-                        {myTasks.length > 0 ? (
+                        {myTasks.filter((task) => task.status === 'posted').length > 0 ? (
                             <>
-                            {myTasks.map((task, index) => (
+                            {myTasks.filter((task) => task.status === 'posted').map((task, index) => (
                                 <div 
                                 key={index} 
                                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-200"
@@ -424,9 +434,6 @@ function UserTaskPage() {
                             </div>
                         </>
                     )}
-
-               
-
                     {location.pathname === '/user/tasks/post' && (
                         <>
                         <div className="flex flex-row items-center  w-8/10">
@@ -586,7 +593,7 @@ function UserTaskPage() {
                                     onClick={() => setActiveTab("completed")}
                                     className={`px-4 mt-5 py-1 text-lg rounded-md flex items-center space-x-2 ${activeTab === "completed" ? "bg-green-100 border border-green-300 text-green-800" : "border border-gray-200"}`}>
                                     <CheckCircle size={18}></CheckCircle>
-                                    <p>Completed</p>
+                                    <p>Completed ({myTasks.filter(task => task.status === "completed-1").length})</p>
                                 </button>
                                 <button 
                                     onClick={() => setActiveTab("disputed")}
@@ -653,7 +660,7 @@ function UserTaskPage() {
                                         </div>
                                         <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
                                             <div className="font-medium text-blue-800 bg-blue-100 px-4 py-1 rounded-2xl">In progresss</div>
-                                            <button onClick={ () => completeTask(2)} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Mark as completed</button>
+                                            <button onClick={ () => {completeTask(2, task.id); loadEverything()}} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Mark as completed</button>
                                             <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
                                                 {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}
                                             </button>
@@ -683,6 +690,69 @@ function UserTaskPage() {
                                 </div>
                                 <p className="font-medium">Tasks waiting for confirmation - both tasks you've completed and tasks others have completed for you</p>
                             </div>
+                            {myTasks.filter(task => task.status === "completed-1").map((task) => (
+                                <>
+                                    <div className="flex flex-row w-8/10 items-center space-x-4 p-3 border border-gray-300">
+                                        <div className=" w-10 h-10 border border-gray-300 rounded-2xl flex items-center justify-center">J</div>
+                                        <div className="flex flex-col justify-center ">
+                                            <p className="font-medium text-lg">{task.title}</p>
+                                            <p className="text-md text-gray-500">Worker: {task.worker_username} ~ Due: {task.deadline}</p>
+                                        </div>
+                                        <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
+                                            <div className="font-medium text-blue-800 bg-blue-100 px-4 py-1 rounded-2xl">marked as completed by worker</div>
+                                            <button onClick={ () => {completeTask(3, task.id); loadEverything()}} className="text-white px-2 py-1 bg-red-600 rounded-md hover:bg-red-700">Dispute</button>
+                                            <button onClick={ () => {completeTask(2, task.id); loadEverything()}} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Confirm completion</button>
+                                            <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
+                                                {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}
+                                            </button>
+                                        </div>      
+                                    </div>
+                                    {expandedDiv === task.id && (
+                                            <>
+                                                <div className=" w-8/10 p-4 grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-50">
+                                                    <p><span className="font-medium">Description: </span>{task.description}</p>
+                                                    <p><span className="font-medium">Deadline: </span> {task.deadline}</p>
+                                                    <p><span className="font-medium">Category: </span>{task.category}</p>
+                                                    <p><span className="font-medium">Priority: </span> {task.taskUrgency}</p>
+                                                    <p><span className="font-medium">Task status: </span> {task.status}</p>
+                                                    <p><span className="font-medium">Credits: </span> {task.credits_offered}</p>
+                                                </div>
+                                            </>
+                                        )}
+
+                                </>
+                            ))}
+                            {myTodoTasks.filter(task => task.status === "completed-1").map((task) => (
+                                <>
+                                    <div className="flex flex-row w-8/10 items-center space-x-4 p-3 border border-gray-300">
+                                        <div className=" w-10 h-10 border border-gray-300 rounded-2xl flex items-center justify-center">{task.worker_username.charAt(0).toUpperCase()}</div>
+                                        <div className="flex flex-col justify-center ">
+                                            <p className="font-medium text-lg">{task.title}</p>
+                                            <p className="text-md text-gray-500">Task accepted and completed by You</p>
+                                        </div>
+                                        <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
+                                            <div className="font-medium text-blue-800 bg-blue-100 px-4 py-1 rounded-2xl">Awaiting confirmation from owner</div>
+                                            <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
+                                                {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}
+                                            </button>
+                                        </div>      
+                                    </div>
+                                    {expandedDiv === task.id && (
+                                            <>
+                                                <div className=" w-8/10 p-4 grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-50">
+                                                    <p><span className="font-medium">Description: </span>{task.description}</p>
+                                                    <p><span className="font-medium">Deadline: </span> {task.deadline}</p>
+                                                    <p><span className="font-medium">Category: </span>{task.category}</p>
+                                                    <p><span className="font-medium">Priority: </span> {task.taskUrgency}</p>
+                                                    <p><span className="font-medium">Task status: </span> {task.status}</p>
+                                                    <p><span className="font-medium">Credits: </span> {task.credits_offered}</p>
+                                                </div>
+                                            </>
+                                        )}
+
+                                </>
+                            ))}
+                            
                         </>) : (<></>)}
                         {activeTab === "disputed" ? (<>
                             <div className="flex flex-col w-8/10 bg-red-50 mt-5 p-5 border border-red-300 text-red-800 rounded-t-xl">
@@ -692,8 +762,70 @@ function UserTaskPage() {
                                 </div>
                                 <p className="font-medium">Tasks where completion is disputed by the owner</p>
                             </div>
+                            {myTasks.filter(task => task.status === "disputed").map((task) => (
+                                <>
+                                    <div className="flex flex-row w-8/10 items-center space-x-4 p-3 border border-gray-300">
+                                        <div className=" w-10 h-10 border border-gray-300 rounded-2xl flex items-center justify-center">J</div>
+                                        <div className="flex flex-col justify-center ">
+                                            <p className="font-medium text-lg">{task.title}</p>
+                                            <p className="text-md text-gray-500">Worker: {task.worker_username} ~ Due: {task.deadline}</p>
+                                        </div>
+                                        <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
+                                            <div className="font-medium text-blue-800 bg-blue-100 px-4 py-1 rounded-2xl">Awaiting  dispute verdict</div>
+                                            <button onClick={ () => {console.log("clicking dispute"); completeTask(3, task.id); loadEverything()}} className="text-white px-2 py-1 bg-red-600 rounded-md hover:bg-red-700">Dispute</button>
+                                            <button onClick={ () => {console.log("clicking dispute"); completeTask(2, task.id); loadEverything()}} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Confirm completion</button>
+                                            <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
+                                                {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}
+                                            </button>
+                                        </div>      
+                                    </div>
+                                    {expandedDiv === task.id && (
+                                            <>
+                                                <div className=" w-8/10 p-4 grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-50">
+                                                    <p><span className="font-medium">Description: </span>{task.description}</p>
+                                                    <p><span className="font-medium">Deadline: </span> {task.deadline}</p>
+                                                    <p><span className="font-medium">Category: </span>{task.category}</p>
+                                                    <p><span className="font-medium">Priority: </span> {task.taskUrgency}</p>
+                                                    <p><span className="font-medium">Task status: </span> {task.status}</p>
+                                                    <p><span className="font-medium">Credits: </span> {task.credits_offered}</p>
+                                                </div>
+                                            </>
+                                        )}
+
+                                </>
+                            ))}
+                            {myTodoTasks.filter(task => task.status === "disputed").map((task) => (
+                                <>
+                                    <div className="flex flex-row w-8/10 items-center space-x-4 p-3 border border-gray-300">
+                                        <div className=" w-10 h-10 border border-gray-300 rounded-2xl flex items-center justify-center">{task.worker_username.charAt(0).toUpperCase()}</div>
+                                        <div className="flex flex-col justify-center ">
+                                            <p className="font-medium text-lg">{task.title}</p>
+                                            <p className="text-md text-gray-500">Task accepted and completed by You</p>
+                                        </div>
+                                        <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
+                                            <div className="font-medium text-blue-800 bg-blue-100 px-4 py-1 rounded-2xl">Awaiting dispute verdict</div>
+                                            <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
+                                                {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}
+                                            </button>
+                                        </div>      
+                                    </div>
+                                    {expandedDiv === task.id && (
+                                            <>
+                                                <div className=" w-8/10 p-4 grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-50">
+                                                    <p><span className="font-medium">Description: </span>{task.description}</p>
+                                                    <p><span className="font-medium">Deadline: </span> {task.deadline}</p>
+                                                    <p><span className="font-medium">Category: </span>{task.category}</p>
+                                                    <p><span className="font-medium">Priority: </span> {task.taskUrgency}</p>
+                                                    <p><span className="font-medium">Task status: </span> {task.status}</p>
+                                                    <p><span className="font-medium">Credits: </span> {task.credits_offered}</p>
+                                                </div>
+                                            </>
+                                        )}
+
+                                </>
+                            ))}
                         </>) : (<></>)}
-                       
+                            
                         </>
                     )}
                    

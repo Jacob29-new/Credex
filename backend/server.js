@@ -226,7 +226,7 @@ app.get("/user-info", async (req, res) => {
         const userId = decoded.id;
         console.log("Looking up user:", userId);
 
-        const row = db.prepare("SELECT id, firstName, lastName, username, email, credits, bio, location, profilePic, workingHours FROM users WHERE id = ?").get(userId);
+        const row = db.prepare("SELECT id, firstName, lastName, username, email, credits, bio, location, profilePic, workingHours, creditsSpent, CreditsEarned, skills FROM users WHERE id = ?").get(userId);
         
         if (!row) {
             console.log("User not found in database");

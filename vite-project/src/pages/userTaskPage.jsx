@@ -863,7 +863,7 @@ function UserTaskPage() {
                         <div className="text-2xl font-medium w-8/10 border-b border-gray-300 p-3 mb-5">Completed tasks</div>
 
                         {myTasks.filter(task => task.status === "completed-2").length === 0 && myTodoTasks.filter(task => task.status === "completed-2").length === 0 ? (
-                               <div className="w-8/10 py-10 sm:mb-0 text-gray-500 font-medium text-md bg-gray-50 rounded-lg border border-gray-300 flex items-center justify-center p-5">
+                            <div className="w-8/10 py-10 sm:mb-0 text-gray-500 font-medium text-md bg-gray-50 rounded-lg border border-gray-300 flex items-center justify-center p-5">
                                <p>No tasks found</p>
                            </div>
                             ) : (<></>)}

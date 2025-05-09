@@ -50,9 +50,9 @@ async function completeTask(number, taskId, credits_offered, worker_id, creator_
 
     if(number === 3) {
 
-       addNotification({ title: "Disputed completion", description: `A disputed has been made on a task you marked as completed`, priority: "low", category: "tasks", recipient_id: worker_id });
+       addNotification({ title: "Disputed completion", description: `A disputed has been made on a task you marked as completed`, priority: "high", category: "tasks", recipient_id: worker_id });
        console.log("first");
-       addNotification({ title: "Disputed completion", description: `You have made a dispute on a task`, priority: "low", category: "tasks", recipient_id: creator_id });
+       addNotification({ title: "Disputed completion", description: `You have made a dispute on a task`, priority: "high", category: "tasks", recipient_id: creator_id });
        console.log("second");
       
         console.log("Hello. Updating task to disputed with ID:", id);

@@ -75,19 +75,56 @@ function UserNotificationPage() {
 
 
                 <div className="w-8/10 mt-10 flex flex-col items-center">
+                    {notifications.filter((notification) => notification.read === "false").length === 0 && (
+                        <>
+                          <div className="w-8/10 py-10 sm:mb-0 text-gray-500 font-medium text-md bg-gray-50 rounded-lg border border-gray-300 flex items-center justify-center p-5">
+                               <p>No new notifications found</p>
+                           </div>
+                        </>
+                    )}
                     {notifications.filter((notification) => notification.read === "false").reverse().map((notification) => (
                         <>
                         {notification.priority === "high" && (
-                            <>
-                                <div className="w-8/10 mt-5 bg-blue-10 p-5 border-2 border-black">
-                                    <div className="bg-red-500 px-2 py-8">hi</div>
-                                </div>
+                             <>
+                             <div className="w-8/10 mt-5 bg-blue-50 rounded-lg py-3  items-center flex">
+                                 <div className="bg-red-500 h-8/10 w-1 rounded-full "></div>
+                                 <div className="py-7 ml-5 px-2 rounded-2xl bg-blue-100">
+                                    <AlertCircle size={22} color="black"></AlertCircle>
+                                 </div>
+                                 <div className="ml-5 flex flex-col">
+                                    <p className="text-black font-bold text-lg">{notification.title}</p>
+                                    <p className="text-black font-medium text-md">{notification.description}</p>
+                                    <div className="flex flex-row text-sm">
+                                        <p>{getTimeAgo(notification.time)} • {notification.category}</p>
+                                    </div>
+                                 </div>
+                                 <div className="ml-auto mr-5">
+                                    <button onClick={async () => { await readNotification({ id: notification.id }); await refreshNotifications() }}  className="group text-white font-bold py-2 px-4 rounded">
+                                        <CheckCircle size={22} color="currentColor" className="text-black group-hover:text-green-500 transition-colors"/>
+                                    </button>
+                                 </div>
+                             </div>
                             </>
                         )}
                         {notification.priority === "medium" && (
                              <>
-                             <div className="w-8/10 mt-5 bg-blue-10 p-5  border-2 border-black">
-                                 <div className="bg-red-500 px-2 py-8">hi</div>
+                             <div className="w-8/10 mt-5 bg-blue-50 rounded-lg py-3  items-center flex">
+                                 <div className="bg-amber-500 h-8/10 w-1 rounded-full "></div>
+                                 <div className="py-7 ml-5 px-2 rounded-2xl bg-blue-100">
+                                    <Bell size={22} color="black"></Bell>
+                                 </div>
+                                 <div className="ml-5 flex flex-col">
+                                    <p className="text-black font-bold text-lg">{notification.title}</p>
+                                    <p className="text-black font-medium text-md">{notification.description}</p>
+                                    <div className="flex flex-row text-sm">
+                                        <p>{getTimeAgo(notification.time)} • {notification.category}</p>
+                                    </div>
+                                 </div>
+                                 <div className="ml-auto mr-5">
+                                    <button onClick={async () => { await readNotification({ id: notification.id }); await refreshNotifications() }}  className="group text-white font-bold py-2 px-4 rounded">
+                                        <CheckCircle size={22} color="currentColor" className="text-black group-hover:text-green-500 transition-colors"/>
+                                    </button>
+                                 </div>
                              </div>
                             </>
                         )}

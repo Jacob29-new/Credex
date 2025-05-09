@@ -12,6 +12,8 @@ import acceptTask from './functions/taskFunctions/acceptTask.js';
 import getMyTodoTasks from './functions/taskFunctions/getMyTodoTasks.js';
 import completeTask from './functions/taskFunctions/completeTask.js';
 import { db } from './functions/registerFunctions/databaseHandler.js';
+import verifyUser from './functions/loginFunctions/verifyUser.js';
+import saveData from './functions/settingsFunctions/saveData.js';
 
 const app = express();
 
@@ -240,6 +242,44 @@ app.get("/user-info", async (req, res) => {
         return res.status(401).json({ message: "Failed to verify token" });
     }
 });
+
+app.post("/save-changes", async (req, res) => {
+
+    // getting basic info
+    const token = req.cookies["JWT"]
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
+    const userId = decoded.id
+    const userEmail = decoded.email
+    const userUsername = decoded.username
+
+    //retrieving info 
+    const { firstName, lastName, location, skills, workingHours, bio, oldPassword, newPassword } = req.body
+
+    //if user wants to change their password, verifies the old one 
+    if (newPassword !== null && newPassword !== "") {
+        const result = await verifyUser({ username: userUsername, email: userEmail, password: oldPassword });
+        if(result.state) {
+            const newResult = await saveData( { firstName, lastName, location, skills, workingHours, bio, newPassword }, userId, "withPassword")
+            if(!newResult) {
+                console.log("something went wrong")
+                return res.send({ success: false, message: "Something went wrong"}) 
+            } else {
+                return res.send({ success: true, message: "Saved succesfully"})
+            }
+        } else {
+            return res.send({ success: false, message: "password was incorrect"}) 
+        }
+    } 
+
+    //if there isnt a password, this just sends the info without it
+    const newResult = await saveData( { firstName, lastName, location, skills, workingHours, bio }, userId, "withoutPassword")
+    if(!newResult) {
+        console.log("something went wrong")
+        return res.send({ success: false, message: "Something went wrong"})
+    }
+
+    return res.send({ success: true, message: "Succesful"})
+})
 
 
 

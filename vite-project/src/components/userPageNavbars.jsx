@@ -110,7 +110,7 @@ function SmallScreenNavbar() {
                 <img src={chat} className="h-7 w-7  " />
             </div>
             <div onClick={() => {navigate("/user/notifications") ;}} className={`flex relative items-center justify-center h-10 w-10 hover:cursor-pointer hover:bg-black rounded-full mr-5 ${window.location.pathname === "/user/notifications" ? "bg-gray-700 hover:bg-gray-700" : ""}`}>
-                <img src={notifications} className="h-7 w-7  " /> */
+                <img src={notifications} className="h-7 w-7  " /> 
                 {/* <div className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">1</div> */}
             </div>
             <div onClick={() => {navigate("/user/settings") ;}} className={`flex items-center justify-center h-10 w-10 hover:cursor-pointer hover:bg-black rounded-full mr-5 ${window.location.pathname === "/user/settings" ? "bg-gray-700 hover:bg-gray-700" : ""}`}>

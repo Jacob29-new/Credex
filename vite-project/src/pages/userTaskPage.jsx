@@ -724,7 +724,7 @@ function UserTaskPage() {
                                         </div>
                                         <div className="flex flex-col xl:flex-row space-y-2  justify-center ml-auto space-x-5 items-center">
                                             <div className="font-medium text-blue-800 bg-blue-100 px-4 py-1 rounded-2xl">marked as completed by worker</div>
-                                            <button onClick={ () => {console.log("clicking dispute"); completeTask(3, task.id); loadEverything()}} className="text-white px-2 py-1 bg-red-600 rounded-md hover:bg-red-700">Dispute</button>
+                                            <button onClick={ () => {completeTask(3, task.id, task.credits_offered, task.worker_id, task.creator_id); loadEverything()}} className="text-white px-2 py-1 bg-red-600 rounded-md hover:bg-red-700">Dispute</button>
                                             <button onClick={ () => {completeTask(2, task.id, task.credits_offered, task.worker_id, task.creator_id); loadEverything()}} className="text-white px-2 py-1 bg-green-600 rounded-md hover:bg-green-700">Confirm completion</button>
                                             <button onClick={() => { toggleExpand(task.id); console.log(task.id, expandedDiv); }}>
                                                 {expandedDiv === task.id ? <ChevronUp size={18}></ChevronUp> : <ChevronDown size={18}></ChevronDown>}

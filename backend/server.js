@@ -14,6 +14,9 @@ import completeTask from './functions/taskFunctions/completeTask.js';
 import { db } from './functions/registerFunctions/databaseHandler.js';
 import verifyUser from './functions/loginFunctions/verifyUser.js';
 import saveData from './functions/settingsFunctions/saveData.js';
+import getNotifications from './functions/notificationFunctions/getNotifications.js';
+import addNotification from './functions/notificationFunctions/addNotification.js';
+import readNotification from './functions/notificationFunctions/readNotification.js';
 
 const app = express();
 
@@ -131,6 +134,16 @@ app.get("/getcurrenttasks", async (req, res) => {
     return res.json(info)
 })
 
+app.get("/notifications", async (req, res) => {
+
+    const token = req.cookies['JWT'];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const userId = decoded.id;
+
+    const info = await getNotifications(userId)
+    return res.json(info)
+})
+
 app.get("/getmytodotasks", async (req, res) => {
     const token = req.cookies['JWT'];
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -139,6 +152,33 @@ app.get("/getmytodotasks", async (req, res) => {
     const info = await getMyTodoTasks(userId);
     return res.json(info)
 })
+
+app.post("/add-notification", async (req, res) => {
+
+    try {
+        const { title, description, time, priority, category, recipient_id } = req.body;
+        await addNotification({ title, description, time, priority, category, recipient_id });
+        res.json({ message: "Notification added successfully" });
+    } catch(error) {
+        console.log("Failed to add notification to the database:", error.message);
+        res.json({ error: 'Server error' });
+    }
+  
+})
+
+app.post("/read-notification", async (req, res) => {
+    const id = req.body.id;
+    if (!id) {
+        return res.status(400).json({ error: "Notification id is required" });
+    }
+    try {
+        await readNotification(id);
+        res.json({ success: true });
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 app.post("/accept-task", async (req, res) => {
     try {

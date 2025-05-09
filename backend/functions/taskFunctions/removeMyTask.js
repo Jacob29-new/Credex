@@ -31,7 +31,19 @@ function showUsersTable() {
     }
 }
 
-showUsersTable();
+function showNotifications() {
+    try {
+        const users = db.prepare("SELECT * FROM notifications").all();
+        console.log(users);
+        return users;
+    } catch (error) {
+        console.error("Failed to show notifications table:", error);
+        return [];
+    }
+}
+
+showNotifications();
+
 
 function dropUsersTable() {
     try {
@@ -41,6 +53,16 @@ function dropUsersTable() {
         console.error("Failed to drop users table:", error);
     }
 }
+
+function dropNotificationsTable() {
+    try {
+        db.run("DROP TABLE IF EXISTS notifications");
+        console.log("notifications table dropped successfully");
+    } catch (error) {
+        console.error("Failed to drop notifications table:", error);
+    }
+}
+
 
 function dropTasksTable() {
     try {

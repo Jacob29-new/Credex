@@ -17,6 +17,7 @@ import saveData from './functions/settingsFunctions/saveData.js';
 import getNotifications from './functions/notificationFunctions/getNotifications.js';
 import addNotification from './functions/notificationFunctions/addNotification.js';
 import readNotification from './functions/notificationFunctions/readNotification.js';
+import { returnLinks } from './functions/messageFunctions/links.js';
 
 const app = express();
 
@@ -166,6 +167,7 @@ app.post("/add-notification", async (req, res) => {
   
 })
 
+
 app.post("/read-notification", async (req, res) => {
     const id = req.body.id;
     if (!id) {
@@ -235,6 +237,20 @@ app.get("/getfindtasks", async (req, res) => {
     } catch (error) {
         console.error("Error in /getfindtasks:", error);
         res.status(500).json({ error: "Failed to retrieve tasks" });
+    }
+})
+
+app.get("/return-links", async (req, res) => {
+    const token = req.cookies['JWT'];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const userId = decoded.id;
+
+    try {
+        const info = await returnLinks(userId);
+        return res.json(info);
+    } catch (error) {
+        console.error("Error in /return-links:", error);
+        res.json({ error: "Failed to retrieve links" });
     }
 })
 

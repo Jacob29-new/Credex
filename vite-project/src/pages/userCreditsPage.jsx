@@ -13,7 +13,33 @@ function UserCreditsPage() {
     const [creditsEarned, setCreditsEarned] = useState(0);
     const [myCreatedTasks, setMyCreatedTasks] = useState([]);
     const [assignedTasks, setAssignedTasks] = useState([]);
+    const [combinedTasks, setCombinedTasks] = useState([]);
     const [showAllTransactions, setShowAllTransactions] = useState(false);
+    const [userInfo, setUserInfo] = useState({});
+
+    function getTimeAgo(timestamp) {
+        const now = new Date();
+        now.setHours(now.getHours() - 2);
+        const time = new Date(timestamp).getTime();
+        const timeDiff = now - time; 
+    
+        const seconds = Math.floor(timeDiff / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+    
+        if (days > 0) {
+            return `${days} day${days > 1 ? 's' : ''} ago`;
+        } else if (hours > 0) {
+            return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        } else if (minutes > 0) {
+            return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+        } else {
+            return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
+        }
+
+        
+    }
 
     useEffect(() => {
 
@@ -21,6 +47,7 @@ function UserCreditsPage() {
         const fetchUserInfo = async () => {
             const user = await getUserInfo();
             console.log(user);
+            setUserInfo(user);
             setCredits(user.credits);
             setCreditsSpent(user.creditsSpent);
             setCreditsEarned(user.creditsEarned);
@@ -42,12 +69,20 @@ function UserCreditsPage() {
             console.log("Tasks assigned to me that are completed: ", filteredTasks)
         }
 
+
+
         loadMyCreatedTasks()
         loadMyAssignedTasks()
         fetchUserInfo();
 
 
     }, []);
+
+    useEffect(() => {
+        const combinedArray = [...myCreatedTasks, ...assignedTasks];
+        setCombinedTasks(combinedArray);
+        console.log("combined array: ", combinedArray);
+    }, [myCreatedTasks, assignedTasks]);
 
 
     return (
@@ -104,53 +139,40 @@ function UserCreditsPage() {
                     {showAllTransactions && (
                         <div className="p-5 flex flex-col space-y-5">
                                 {/*  credits spent */}
-                              {myCreatedTasks.map((task) => (
+                              {combinedTasks.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((task) => (
                                   <div className="flex flex-row space-x-2 items-center  space-x-12">
                                       <div className="rounded-full bg-gray-100 p-2">
-                                          <ArrowDownLeft size={25} color="red"></ArrowDownLeft>
+                                      {task.creator_id === userInfo.id ? <ArrowDownLeft size={25} color="red"></ArrowDownLeft> : <ArrowUpRight size={25} color="green"></ArrowUpRight>}
                                       </div>
                                      
-                                      <p className="font-medium  text-lg">{task.title}</p>
-                                      <p className="ml-auto font-medium text-xl text-red-500">- {task.credits_offered}</p>
+                                      <div className="flex flex-col">
+                                            <p className="font-medium  text-lg">{task.title}</p>
+                                            <p className="text-sm text-gray-500">{getTimeAgo(task.created_at)}</p>
+                                        </div>
+                                      <p className={`ml-auto font-medium text-xl ${task.creator_id === userInfo.id ? "text-red-500" : "text-green-500"}`}>{task.creator_id === userInfo.id ? "-" + task.credits_offered : "+" + task.credits_offered}</p>
                                   </div>
-                              ))}
-      
-                            {/*   credits earned */}
-                              {assignedTasks.map((task) => (
-                                  <div className="flex flex-row space-x-2 items-center  space-x-12">
-                                  <div className="rounded-full bg-gray-100 p-2">
-                                      <ArrowUpRight size={25} color="green"></ArrowUpRight>
-                                  </div>
-                                 
-                                  <p className="font-medium  text-lg">{task.title}</p>
-                                  <p className="ml-auto font-medium text-xl text-green-500">+ {task.credits_offered}</p>
-                              </div>
                               ))}
                           </div>
                     )}
 
                         {/* only shows 3 transactions in the beginning */}
-                        {myCreatedTasks.length + assignedTasks.length > 3 && !showAllTransactions ? (
+                        {combinedTasks.length > 3 && !showAllTransactions ? (
                         <>
                             <div className="p-5 flex flex-col space-y-5">
-                                {myCreatedTasks.slice(0, 1).map((task) => (
+                                {combinedTasks.slice(0, 3).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((task) => (
                                     <div className="flex flex-row space-x-2 items-center  space-x-12">
                                         <div className="rounded-full bg-gray-100 p-2">
-                                            <ArrowDownLeft size={25} color="red"></ArrowDownLeft>
+                                            {task.creator_id === userInfo.id ? <ArrowDownLeft size={25} color="red"></ArrowDownLeft> : <ArrowUpRight size={25} color="green"></ArrowUpRight>}
                                         </div>
-                                        <p className="font-medium  text-lg">{task.title}</p>
-                                        <p className="ml-auto font-medium text-xl text-red-500">- {task.credits_offered}</p>
+                                        <div className="flex flex-col">
+                                            <p className="font-medium  text-lg">{task.title}</p>
+                                            <p className="text-sm text-gray-500">{getTimeAgo(task.created_at)}</p>
+                                        </div>
+                                        
+                                        <p className={`ml-auto font-medium text-xl ${task.creator_id === userInfo.id ? "text-red-500" : "text-green-500"}`}>{task.creator_id === userInfo.id ? "-" + task.credits_offered : "+" + task.credits_offered}</p>
                                     </div>
                                 ))}
-                                {assignedTasks.slice(0, 1).map((task) => (
-                                    <div className="flex flex-row space-x-2 items-center  space-x-12">
-                                        <div className="rounded-full bg-gray-100 p-2">
-                                            <ArrowUpRight size={25} color="green"></ArrowUpRight>
-                                        </div>
-                                        <p className="font-medium  text-lg">{task.title}</p>
-                                        <p className="ml-auto font-medium text-xl text-green-500">+ {task.credits_offered}</p>
-                                    </div>
-                                ))}
+                              
                             </div>
 
                             <div className="flex justify-center items-center  border-t border-gray-300 py-5">

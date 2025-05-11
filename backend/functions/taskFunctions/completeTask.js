@@ -1,5 +1,6 @@
 import { db } from '../registerFunctions/databaseHandler.js';
 import addNotification from '../notificationFunctions/addNotification.js';
+import { destroyLink } from '../messageFunctions/links.js';
 
 async function completeTask(number, taskId, credits_offered, worker_id, creator_id) {
     console.log("completeTask called with:", number, taskId);
@@ -18,6 +19,7 @@ async function completeTask(number, taskId, credits_offered, worker_id, creator_
 
     if(number === 2) {
 
+        destroyLink(worker_id, creator_id);
 
 
         //řešení problemu s dvojitým voláním funkce

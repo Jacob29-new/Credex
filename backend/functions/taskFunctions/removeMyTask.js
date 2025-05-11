@@ -42,7 +42,20 @@ function showNotifications() {
     }
 }
 
-showNotifications();
+function showLinks() {
+    try {
+        const users = db.prepare("SELECT * FROM links").all();
+        console.log(users);
+        return users;
+    } catch (error) {
+        console.error("Failed to show links table:", error);
+        return [];
+    }
+}
+
+showLinks();
+
+
 
 
 function dropUsersTable() {

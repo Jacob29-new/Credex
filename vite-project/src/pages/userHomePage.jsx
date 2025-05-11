@@ -50,7 +50,7 @@ function UserHomePage() {
         <div className="h-full w-full flex flex-row">
             <BigScreenNavbar />
             <SmallScreenNavbar />
-            <div className="flex flex-col items-center h-full  w-full">
+            <div className="flex flex-col items-center h-full  w-full overflow-y-scroll">
                 <div className="w-full flex flex-row items-center justify-end p-5">
                     <img src={credex} className="h-7 w-7" alt="" />
                     <p className="uppercase text-black text-xl font-bold">credex</p>                    

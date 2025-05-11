@@ -19,7 +19,11 @@ async function completeTask(number, taskId, credits_offered, worker_id, creator_
 
     if(number === 2) {
 
-        destroyLink(worker_id, creator_id);
+        const exists = db.prepare(`SELECT * FROM tasks WHERE (creator_id = ? AND worker_id = ?) OR (creator_id = ? AND worker_id = ?)`).all(creator_id, worker_id, worker_id, creator_id);
+        if (!(exists.length > 1)) {
+            destroyLink(worker_id, creator_id);
+        }
+      
 
 
         //řešení problemu s dvojitým voláním funkce

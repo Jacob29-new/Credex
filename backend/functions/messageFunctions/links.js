@@ -37,6 +37,14 @@ function returnLinks(userId) {
     const prepare = db.prepare(`SELECT * FROM links WHERE user1 = ? OR user2 = ?`); 
     const result = prepare.all(userId, userId);
 
+    result.forEach(link => {
+        const lastMsg = db.prepare(
+            `SELECT message, created_at FROM messages WHERE chat_id = ? ORDER BY created_at DESC LIMIT 1`
+        ).get(link.id);
+        link.lastMessage = lastMsg ? lastMsg.message : "";
+        link.lastMessageTime = lastMsg ? lastMsg.created_at : "";
+    });
+
     return result;
 }
 

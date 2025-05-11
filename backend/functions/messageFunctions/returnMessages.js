@@ -4,6 +4,7 @@ function returnMessages(chatId) {
     const prepare = db.prepare(`SELECT * FROM messages WHERE chat_id = ?`); 
     const result = prepare.all(chatId);
 
+
     return result;
 }
 

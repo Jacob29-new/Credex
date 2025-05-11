@@ -18,6 +18,8 @@ import getNotifications from './functions/notificationFunctions/getNotifications
 import addNotification from './functions/notificationFunctions/addNotification.js';
 import readNotification from './functions/notificationFunctions/readNotification.js';
 import { returnLinks } from './functions/messageFunctions/links.js';
+import sendMessage from "./functions/messageFunctions/sendMessage.js"
+import returnMessages from "./functions/messageFunctions/returnMessages.js"
 
 const app = express();
 
@@ -225,6 +227,20 @@ app.post("/complete-task", async (req, res) => {
     }
 });
 
+app.post("/send-message", async (req, res) => {
+    try {
+        const token = req.cookies['JWT'];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const userId = decoded.id;
+
+        const info = await sendMessage(req.body, userId);
+        return res.json(info);
+    } catch (err) {
+        console.error('Error in /send-message:', err);
+        res.json({ error: 'Server error' });
+    }
+});
+
 app.get("/getfindtasks", async (req, res) => {
 
     const token = req.cookies['JWT'];
@@ -253,6 +269,19 @@ app.get("/return-links", async (req, res) => {
         res.json({ error: "Failed to retrieve links" });
     }
 })
+
+app.post("/return-messages", async (req, res) => {
+    const { chatId } = req.body;
+
+    try {
+        const info = await returnMessages(chatId);
+        return res.json(info);
+    } catch (error) {
+        console.error("Error in /return-messages:", error);
+        res.json({ error: "Failed to retrieve messages" });
+    }
+})
+
 
 app.post("/removetask", async (req, res) => {
     const id = req.body.id;

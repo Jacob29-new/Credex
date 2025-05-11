@@ -31,6 +31,19 @@ function showUsersTable() {
     }
 }
 
+function showMessagesTable() {
+    try {
+        const messages = db.prepare("SELECT * FROM messages").all();
+        console.log(messages);
+        return messages;
+    } catch (error) {
+        console.error("Failed to show messages table:", error);
+        return [];
+    }
+}
+
+showMessagesTable()
+
 function showNotifications() {
     try {
         const users = db.prepare("SELECT * FROM notifications").all();

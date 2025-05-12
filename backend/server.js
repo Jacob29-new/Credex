@@ -21,6 +21,7 @@ import { returnLinks } from './functions/messageFunctions/links.js';
 import sendMessage from "./functions/messageFunctions/sendMessage.js"
 import returnMessages from "./functions/messageFunctions/returnMessages.js"
 
+
 const app = express();
 
 app.use(cors({
@@ -273,8 +274,13 @@ app.get("/return-links", async (req, res) => {
 app.post("/return-messages", async (req, res) => {
     const { chatId } = req.body;
 
+    const token = req.cookies["JWT"]
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
+    const userId = decoded.id
+
+
     try {
-        const info = await returnMessages(chatId);
+        const info = await returnMessages(chatId, userId);
         return res.json(info);
     } catch (error) {
         console.error("Error in /return-messages:", error);
@@ -338,13 +344,13 @@ app.post("/save-changes", async (req, res) => {
     const userUsername = decoded.username
 
     //retrieving info 
-    const { firstName, lastName, location, skills, workingHours, bio, oldPassword, newPassword } = req.body
+    const { firstName, lastName, location, skills, workingHours, bio, profilePic, oldPassword, newPassword } = req.body
 
     //if user wants to change their password, verifies the old one 
     if (newPassword !== null && newPassword !== "") {
         const result = await verifyUser({ username: userUsername, email: userEmail, password: oldPassword });
         if(result.state) {
-            const newResult = await saveData( { firstName, lastName, location, skills, workingHours, bio, newPassword }, userId, "withPassword")
+            const newResult = await saveData( { firstName, lastName, location, skills, workingHours, bio, profilePic, newPassword }, userId, "withPassword")
             if(!newResult) {
                 console.log("something went wrong")
                 return res.send({ success: false, message: "Something went wrong"}) 
@@ -357,7 +363,7 @@ app.post("/save-changes", async (req, res) => {
     } 
 
     //if there isnt a password, this just sends the info without it
-    const newResult = await saveData( { firstName, lastName, location, skills, workingHours, bio }, userId, "withoutPassword")
+    const newResult = await saveData( { firstName, lastName, location, skills, workingHours, bio, profilePic }, userId, "withoutPassword")
     if(!newResult) {
         console.log("something went wrong")
         return res.send({ success: false, message: "Something went wrong"})

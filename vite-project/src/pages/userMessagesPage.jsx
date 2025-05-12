@@ -71,7 +71,7 @@ function UserMessagesPage() {
                         <div className="w-full py-3 px-5 border-b border-gray-300">
                             <p className="font-semibold text-2xl">Messages</p>
                         </div>
-                            {links.length === 0 ? <p className="font-semibold text-2xl">No Messages</p> : null}
+                            {links.length === 0 ? <p className="font-thin text-xl text-center py-10">No chats</p> : null}
                             {links.map((link) => (
                                 <div  onClick={ async () => { setCurrentChat(link.id); const messages = await getAllMessages({ chatId: link.id });; setChat(messages); console.log("chat",chat)}} className={`flex flex-row justify-start py-3 border-b border-gray-300 hover:bg-gray-100 cursor-pointer ${currentChat === link.id ? "bg-gray-200 hover:bg-gray-200" : ""}`}>
                                     <div className="h-full flex  items-center px-2">

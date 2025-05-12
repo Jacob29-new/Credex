@@ -18,6 +18,7 @@ function UserSettingsPage() {
     const [newPassword, setNewPassword] = useState(null);
     const [username, setUsername] = useState(null);
     const [succesful, setSuccesful] = useState(null);
+    const [profilePic, setProfilePic] = useState(null);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -29,6 +30,7 @@ function UserSettingsPage() {
             setWorkingHours(userInfo.workingHours);
             setBio(userInfo.bio);
             setUsername(userInfo.username); 
+            setProfilePic(userInfo.profilePic);
             console.log("User skills:", userInfo.skills);
         };
         
@@ -37,7 +39,7 @@ function UserSettingsPage() {
 
     async function handleSaveChanges() {
         setSuccesful(null);
-        const response  = await saveChanges( { firstName, lastName, location, skills, workingHours, bio, oldPassword, newPassword });
+        const response  = await saveChanges( { firstName, lastName, location, skills, workingHours, bio, profilePic, oldPassword, newPassword });
         if (!response) {
             setSuccesful(false);
         } else {
@@ -65,7 +67,19 @@ function UserSettingsPage() {
                     <div className="w-32 h-32 border border-gray-300 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 ">
                         <p>150 x 150</p>
                     </div>
-                    <button className="mt-4 px-5 py-2 bg-gray-300 rounded-lg cursor-pointer hover:bg-gray-400">Change Profile Picture</button>
+                    <input
+  type="file"
+  accept="image/*"
+  onChange={async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfilePic(reader.result); // reader.result is a base64 string
+    };
+    reader.readAsDataURL(file);
+  }}
+/>
                     
                     <p className="text-xl font-medium w-full px-5 mt-5">Basic Information</p>
 

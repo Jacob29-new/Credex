@@ -67,19 +67,7 @@ function UserSettingsPage() {
                     <div className="w-32 h-32 border border-gray-300 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 ">
                         <p>150 x 150</p>
                     </div>
-                    <input
-  type="file"
-  accept="image/*"
-  onChange={async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setProfilePic(reader.result); // reader.result is a base64 string
-    };
-    reader.readAsDataURL(file);
-  }}
-/>
+                    <input type="file" className="mt-4 px-5 py-2 bg-gray-300 rounded-lg cursor-pointer hover:bg-gray-400" value={profilePic} onChange={(e) => set(e.target.value)}></input>
                     
                     <p className="text-xl font-medium w-full px-5 mt-5">Basic Information</p>
 

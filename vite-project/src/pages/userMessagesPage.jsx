@@ -4,7 +4,7 @@ import credex from "../assets/credex_white_bg.png";
 import { useState, useEffect, useRef } from "react";
 import getLinks from "../functions/messagePageFunctions/getLinks.js";
 import getUserInfo from "../functions/getUserInfo.js";
-import { Divide, Send, ArrowLeft} from 'lucide-react';
+import { Divide, Send, ArrowLeft, Check, CheckCheck} from 'lucide-react';
 import sendMessage from "../functions/messagePageFunctions/sendMessage.js";
 import getAllMessages from "../functions/messagePageFunctions/getAllMessages.js"
 
@@ -16,6 +16,18 @@ function UserMessagesPage() {
     const [currentChat, setCurrentChat] = useState(0)
     const [messageInput, setMessageInput] = useState("")
     const [chat, setChat] = useState([])
+
+    function returnOppositeUser() {
+        const currentLink = links.find(link => link.id === currentChat);
+        
+        if (currentLink) {
+            if (String(userInfo.id) === currentLink.user1) {
+                return currentLink.username2;
+            } else {
+                return currentLink.username1;
+            }
+        }
+    }
 
     const bottomRef = useRef(null);
 
@@ -56,10 +68,11 @@ function UserMessagesPage() {
                 </div>
                 <h1 className="text-4xl font-bold text-center">Messages</h1>
                 {currentChat !== 0 ? (
-                    <div className="w-8/10">
+                    <div className="w-8/10 flex flex-row items-center font-medium text-lg">
                         <button onClick={() => setCurrentChat(0)} className="p-2 rounded hover:bg-gray-200">
                             <ArrowLeft size={24} />
                         </button>
+                        <div className="ml-3 cursor-pointer hover:text-blue-500"> {returnOppositeUser()}</div>
                     </div>
                 ): null}
               
@@ -73,7 +86,7 @@ function UserMessagesPage() {
                         </div>
                             {links.length === 0 ? <p className="font-thin text-xl text-center py-10">No chats</p> : null}
                             {links.map((link) => (
-                                <div  onClick={ async () => { setCurrentChat(link.id); const messages = await getAllMessages({ chatId: link.id });; setChat(messages); console.log("chat",chat)}} className={`flex flex-row justify-start py-3 border-b border-gray-300 hover:bg-gray-100 cursor-pointer ${currentChat === link.id ? "bg-gray-200 hover:bg-gray-200" : ""}`}>
+                                <div  onClick={ async () => { setCurrentChat(link.id); const messages = await getAllMessages({ chatId: link.id }); setChat(messages); }} className={`flex flex-row justify-start py-3 border-b border-gray-300 hover:bg-gray-100 cursor-pointer ${currentChat === link.id ? "bg-gray-200 hover:bg-gray-200" : ""}`}>
                                     <div className="h-full flex  items-center px-2">
                                         <div className="h-10 w-10 border border-black bg-gray-300 rounded-full text-2xl items-center flex justify-center"></div>
                                     </div> {/* profile picture */}
@@ -111,7 +124,12 @@ function UserMessagesPage() {
                                     <div className={`w-full flex ${msg.sender_id === userInfo.id ? " justify-end" : ""}`}>
                                         <div  className={` py-3 px-2 max-w-2/3 flex flex-col ${msg.sender_id === userInfo.id ? " bg-blue-400 rounded-t-2xl rounded-bl-2xl text-end" : "bg-white rounded-t-2xl rounded-br-2xl"} `}>
                                             <span className="ml-2 font-semi-bold break-all">{msg.message}</span>
-                                            <span className="ml-2 font-thin">{msg.created_at ? new Date(msg.created_at.replace(" ", "T")).toTimeString().slice(0, 5): ""}</span>
+                                            <div className="flex flex-row ml-2 ml-auto items-center relative">
+                                                <span className="ml-2 font-thin">{msg.created_at ? new Date(msg.created_at.replace(" ", "T")).toTimeString().slice(0, 5): ""}</span>
+                                                {msg.sender_id === userInfo.id && msg.message_read === "true" ? <CheckCheck className="ml-3 mt-1" size={20} color="cyan"></CheckCheck> : null}
+                                                {msg.sender_id === userInfo.id && msg.message_read !== "true" ? <Check className="ml-3 mt-1" size={18} color="black"></Check> : null}
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                     

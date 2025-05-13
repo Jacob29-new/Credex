@@ -22,7 +22,7 @@ function UserSettingsPage() {
 
     useEffect(() => {
         const fetchUserInfo = async () => {
-            const userInfo = await getUserInfo();
+            const userInfo = await getUserInfo(null);
             setFirstName(userInfo.firstName);
             setLastName(userInfo.lastName);
             setLocation(userInfo.location);

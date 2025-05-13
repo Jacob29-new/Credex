@@ -45,7 +45,7 @@ function UserCreditsPage() {
 
         //gets info about user
         const fetchUserInfo = async () => {
-            const user = await getUserInfo();
+            const user = await getUserInfo(null);
             console.log(user);
             setUserInfo(user);
             setCredits(user.credits);

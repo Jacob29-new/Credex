@@ -7,24 +7,25 @@ import getUserInfo from "../functions/getUserInfo.js";
 import { Divide, Send, ArrowLeft, Check, CheckCheck} from 'lucide-react';
 import sendMessage from "../functions/messagePageFunctions/sendMessage.js";
 import getAllMessages from "../functions/messagePageFunctions/getAllMessages.js"
+import AboutUser from "../components/aboutUser.jsx";
 
 function UserMessagesPage() {
 
-    const [messages, setMessages] = useState(["dadawd", "dwad", "feafaefae", "dadawd", "dwad", "feafaefae", "dadawd", "dwad", "feafaefae", "dadawd", "dwad", "feafaefae"]);
     const [links, setLinks] = useState([])
     const [userInfo, setUserInfo] = useState([])
     const [currentChat, setCurrentChat] = useState(0)
     const [messageInput, setMessageInput] = useState("")
     const [chat, setChat] = useState([])
+    const [auPopup, setAuPopup] = useState(false)
+    const [auUserId, setAuUserId] = useState(0)
 
     function returnOppositeUser() {
         const currentLink = links.find(link => link.id === currentChat);
-        
         if (currentLink) {
             if (String(userInfo.id) === currentLink.user1) {
-                return currentLink.username2;
+                return { username: currentLink.username2, id: currentLink.user2 };
             } else {
-                return currentLink.username1;
+                return { username: currentLink.username1, id: currentLink.user1 };
             }
         }
     }
@@ -39,7 +40,7 @@ function UserMessagesPage() {
         };
 
         const fetchUserInfo = async () => {
-            const info = await getUserInfo();
+            const info = await getUserInfo(null);
             console.log("userInfo: ", info);
             setUserInfo(info);
         };
@@ -58,7 +59,8 @@ function UserMessagesPage() {
     }
 
     return (
-        <div className="h-full w-full flex flex-row">
+        <>
+        <div className="h-full w-full flex flex-row relative">
             <BigScreenNavbar />
             <SmallScreenNavbar />
             <div className="flex flex-col items-center h-full  w-full">
@@ -72,7 +74,7 @@ function UserMessagesPage() {
                         <button onClick={() => setCurrentChat(0)} className="p-2 rounded hover:bg-gray-200">
                             <ArrowLeft size={24} />
                         </button>
-                        <div className="ml-3 cursor-pointer hover:text-blue-500"> {returnOppositeUser()}</div>
+                        <div className="ml-3 cursor-pointer hover:text-blue-500" onClick={() => { setAuPopup(true); setAuUserId(returnOppositeUser().id);}}> {returnOppositeUser().username}</div>
                     </div>
                 ): null}
               
@@ -125,7 +127,8 @@ function UserMessagesPage() {
                                         <div  className={` py-3 px-2 max-w-2/3 flex flex-col ${msg.sender_id === userInfo.id ? " bg-blue-400 rounded-t-2xl rounded-bl-2xl text-end" : "bg-white rounded-t-2xl rounded-br-2xl"} `}>
                                             <span className="ml-2 font-semi-bold break-all">{msg.message}</span>
                                             <div className="flex flex-row ml-2 ml-auto items-center relative">
-                                                <span className="ml-2 font-thin">{msg.created_at ? new Date(msg.created_at.replace(" ", "T")).toTimeString().slice(0, 5): ""}</span>
+                                            <span className="ml-2 font-thin">
+                                                {msg.created_at ? (() => { const date = new Date(msg.created_at.replace(" ", "T")); date.setHours(date.getHours() + 2); return date.toTimeString().slice(0, 5); })() : ""}</span>
                                                 {msg.sender_id === userInfo.id && msg.message_read === "true" ? <CheckCheck className="ml-3 mt-1" size={20} color="cyan"></CheckCheck> : null}
                                                 {msg.sender_id === userInfo.id && msg.message_read !== "true" ? <Check className="ml-3 mt-1" size={18} color="black"></Check> : null}
                                             </div>
@@ -151,8 +154,10 @@ function UserMessagesPage() {
 
                 </div>
             </div>
-
+            <AboutUser userId={auUserId} isOpen={auPopup} onClose = {() => setAuPopup(false)}></AboutUser>
+            
         </div>
+        </>
     );
 }
 

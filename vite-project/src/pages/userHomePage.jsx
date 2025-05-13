@@ -38,7 +38,7 @@ function UserHomePage() {
 
     useEffect(() => {
         const fetchUserInfo = async () => {
-            const user = await getUserInfo();
+            const user = await getUserInfo(null);
             console.log(user);
             setFirstName(user.firstName);
             setCredits(user.credits);

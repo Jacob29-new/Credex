@@ -299,7 +299,7 @@ app.post("/removetask", async (req, res) => {
     }   
 })
 
-app.get("/user-info", async (req, res) => {
+app.post("/user-info", async (req, res) => {
     const token = req.cookies['JWT'];
     console.log("Token received:", token ? "present" : "missing");
     
@@ -315,19 +315,32 @@ app.get("/user-info", async (req, res) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         console.log("Token decoded:", decoded);
-        
-        const userId = decoded.id;
-        console.log("Looking up user:", userId);
 
-        const row = db.prepare("SELECT id, firstName, lastName, username, email, credits, bio, location, profilePic, workingHours, creditsSpent, CreditsEarned, skills FROM users WHERE id = ?").get(userId);
+        let userId;
         
-        if (!row) {
-            console.log("User not found in database");
-            return res.status(404).json({ message: "User not found" });
+        console.log("User ID:", req.body.info);
+        if(req.body.info === null) { 
+            userId = decoded.id; 
+            const row = db.prepare("SELECT id, firstName, lastName, username, email, credits, bio, location, profilePic, workingHours, creditsSpent, CreditsEarned, skills FROM users WHERE id = ?").get(userId);
+            if (!row) {
+                console.log("User not found in database");
+                return res.status(404).json({ message: "User not found" });
+            }
+            console.log("User info found:", row);
+            return res.json(row);
+        } else {
+            userId = Number(req.body.info)
+            const row = db.prepare("SELECT firstName, lastName, username, bio, location, profilePic, workingHours, skills, ratings, created_at FROM users WHERE id = ?").get(userId);
+            if (!row) {
+                console.log("User not found in database");
+                return res.status(404).json({ message: "User not found" });
+            }
+            console.log("User info found:", row);
+            return res.json(row);
         }
-        
-        console.log("User info found:", row);
-        return res.json(row);
+    
+
+    
     } catch (err) {
         console.error("Token verification error:", err);
         return res.status(401).json({ message: "Failed to verify token" });

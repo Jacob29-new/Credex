@@ -1,8 +1,9 @@
-async function getUserInfo() {
+async function getUserInfo(info) {
     try {
         const response = await fetch("http://localhost:3000/user-info", {
-            method: "GET",
+            method: "POST",
             credentials: "include",
+            body: JSON.stringify({info}),
             headers: { "Content-Type": "application/json" }
         });
         const data = await response.json();
